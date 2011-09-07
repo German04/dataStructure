@@ -62,21 +62,46 @@ public class StringRecursion {
             }
     }
     
+    /**
+     * Print letters recursivelly. The comma might have to be handled in a better way.
+     * @param str
+     */
+    
+    public static String replace(String str, char oldChar, char newChar){
+        // check old and new char
+        if(str.isEmpty()){
+            return "";
+        }
+        
+        //if(oldChar == null)
+        //    return "";
+        
+        // modify first character
+        String firstCharacter = str.substring(0, 1);
+        if(firstCharacter.equals(Character.toString(oldChar))){
+            firstCharacter = Character.toString(newChar);
+        }
+        
+        String otherCharacters = str.substring(1, str.length());
+        firstCharacter += replace(otherCharacters, oldChar, newChar);
+        
+        return firstCharacter;
+    }
+    
     public static void main(String[] args) {
         System.out.println("Spelling \"Rabbit\"");
         printLetters("Rabbit");
-        char i = 'i';
-        int index = indexOf(i, "Rabbit");
+        int index = indexOf('i', "Rabbit");
         System.out.println("Index Of \"i\" in \"Rabbit\" is:" + index);
+        String stringReplace = replace("Rabbit", 'b', 'p');
+        System.out.println("Replace \"b\" by \"p\" in \"Rabbit\": " + stringReplace);
         System.out.println("Spelling \"I like to recurse!\"");
         printLetters("I like to recurse!");
-        char p = 'P';
-        index = indexOf(p, "I like to recurse!");
+        index = indexOf('P', "I like to recurse!");
         System.out.println("Index Of \"P\" in \"I like to recurse!\" is:" + index);
         System.out.println("Spelling \"\"");
         printLetters("");
-        char f = 'f';
-        index = indexOf(f, "");
+        index = indexOf('f', "");
         System.out.println("Index Of \"f\" in \"\" is:" + index);
         
         
