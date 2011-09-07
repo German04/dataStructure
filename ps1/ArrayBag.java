@@ -181,13 +181,37 @@ public class ArrayBag implements Bag {
         Object[] otherItems = otherBag.toArray();
         for (int i = 0; i < otherItems.length; i++) {
             while (contains(otherItems[i])){
-                remove(otherItems[i]);
+                removedSth = remove(otherItems[i]);
+            }
+        }
+        return removedSth;
+    }
+    
+    public Bag unionWith(Bag otherBag){
+        if (otherBag == null)
+            throw new IllegalArgumentException("No input bag");
+        
+        // Create bag of size 1, which is the minimum size of a bag.
+        Bag unionBag = new ArrayBag(this.capacity() + otherBag.capacity());
+        // Go through all bags and add value if the "union bag" doesn't already contain it
+        // Go though current bag
+        Object[] otherItems = this.toArray();
+        for (int i = 0; i < otherItems.length; i++) {
+            if (!unionBag.contains(otherItems[i])){
+                unionBag.add(otherItems[i]);
+            }
+        }
+        // Go through other bag
+        otherItems = otherBag.toArray();
+        for (int i = 0; i < otherItems.length; i++) {
+            if (!unionBag.contains(otherItems[i])){
+                unionBag.add(otherItems[i]);
             }
         }
         
-        // copy bag
-        return removedSth;
+        return unionBag;
     }
+    
     /**
      * toString - converts this ArrayBag into a readable String object.
      * Overrides the Object version of this method.
