@@ -161,29 +161,21 @@ public class ArrayBag implements Bag {
     public void increaseCapacity(int increment) {
     	
         //increment cannot be <0, thorw exception
-        if(increment <= 0) {
-        throw new IllegalArgumentException("increment cannot be < 0");
+        if(increment < 0) {
+            throw new IllegalArgumentException("increment cannot be < 0");
         }
     
         //increment ==0, nothing to be done
         if(increment == 0){
-        return;
+            return;
         }
         //increment >0, create new array, copy, etc..
         else{
-        
+            Object[] temp = new Object[items.length + increment];
+            System.arraycopy(items, 0, temp, 0, items.length);
+            // copy pointer address
+            items = temp;
         }
-        /*String[] array = new String[5];
-        ...
-        array = expand(array, 10);
-
-    private String[] expand(String[] array, int size) {
-        String[] temp = new String[size];
-        System.arraycopy(array, 0, temp, 0, array.length);
-        for(int j = array.length; j < size; j++)
-            temp[j] = "";
-        return temp;
-    }*/
      }
     /**
      * toString - converts this ArrayBag into a readable String object.
@@ -248,10 +240,23 @@ public class ArrayBag implements Bag {
         System.out.println("bag 1 = " + bag1);
         System.out.println();
         
-        boolean isEmpty = bag1.isEmpty();
+        isEmpty = bag1.isEmpty();
         System.out.println("Is empty: " + isEmpty);
         
         int roomLeft = bag1.roomLeft();
         System.out.println("Room left: " + roomLeft);
+        
+        // increase capacity
+        System.out.print("increase capacity: ");
+        itemStr = in.nextLine();
+        bag1.increaseCapacity( Integer.parseInt(itemStr) );
+        
+        roomLeft = bag1.roomLeft();
+        System.out.println("Room left: " + roomLeft);
+        
+        // Iterate over the objects in bag1, printing them one per
+        // line.
+        System.out.println("bag 1 = " + bag1);
+        System.out.println();
     }
 }
