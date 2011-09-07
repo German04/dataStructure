@@ -69,4 +69,10 @@ public interface Bag {
      * otherwise 
      */
     boolean isEmpty();
+    
+    /**
+     * void increaseCapacity(int increment) Ð increases the maximum capacity of 
+     * the bag by the specified amount
+     */
+    void increaseCapacity(int increment);
 } 

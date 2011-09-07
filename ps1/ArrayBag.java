@@ -155,6 +155,37 @@ public class ArrayBag implements Bag {
     }
     
     /**
+     * void increaseCapacity(int increment) Ð increases the maximum capacity of 
+     * the bag by the specified amount
+     */
+    public void increaseCapacity(int increment) {
+    	
+        //increment cannot be <0, thorw exception
+        if(increment <= 0) {
+        throw new IllegalArgumentException("increment cannot be < 0");
+        }
+    
+        //increment ==0, nothing to be done
+        if(increment == 0){
+        return;
+        }
+        //increment >0, create new array, copy, etc..
+        else{
+        
+        }
+        /*String[] array = new String[5];
+        ...
+        array = expand(array, 10);
+
+    private String[] expand(String[] array, int size) {
+        String[] temp = new String[size];
+        System.arraycopy(array, 0, temp, 0, array.length);
+        for(int j = array.length; j < size; j++)
+            temp[j] = "";
+        return temp;
+    }*/
+     }
+    /**
      * toString - converts this ArrayBag into a readable String object.
      * Overrides the Object version of this method.
      */
