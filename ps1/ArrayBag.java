@@ -148,6 +148,10 @@ public class ArrayBag implements Bag {
         return (numItems == 0);
     }
     
+    public boolean isFull() {
+        return (numItems == items.length);
+    }
+    
     public void increaseCapacity(int increment) {
     	
         //increment cannot be <0, thorw exception
@@ -172,14 +176,17 @@ public class ArrayBag implements Bag {
         // check input
         if (otherBag == null || otherBag.numItems() == 0)
             return false;
+        boolean removedSth = false;
         
-        // check if there is enough space in the current bag
-        if(roomLeft() < otherBag.numItems()){
-            return false;
+        Object[] otherItems = otherBag.toArray();
+        for (int i = 0; i < otherItems.length; i++) {
+            while (contains(otherItems[i])){
+                remove(otherItems[i]);
+            }
         }
         
         // copy bag
-        return true;
+        return removedSth;
     }
     /**
      * toString - converts this ArrayBag into a readable String object.

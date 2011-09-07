@@ -59,6 +59,8 @@ public interface Bag {
     
     boolean isEmpty();
     
+    boolean isFull();
+    
     void increaseCapacity(int increment);
     
     boolean removeItems(Bag otherBag);
