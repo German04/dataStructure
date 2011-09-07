@@ -53,26 +53,13 @@ public interface Bag {
      */
     Object[] toArray();
     
-    /**
-     * returns the number of additional items that the ArrayBag has 
-     * room to store. For example, if the maximum size of the bag is 10 and there are 
-     * currently 7 items in the bag, this method should return 3, since the bag has room 
-     * for 3 more items. Hint: This method should only need one or two lines of code.
-     * @return int room left in the bag
-     */
     int roomLeft();
     
-    /**
-     * boolean isEmpty() Ð returns  true if the  ArrayBag is empty, and  false
-     * otherwise 
-     * @return bool true if the  ArrayBag is empty, and  false
-     * otherwise 
-     */
+    int capacity();
+    
     boolean isEmpty();
     
-    /**
-     * void increaseCapacity(int increment) Ð increases the maximum capacity of 
-     * the bag by the specified amount
-     */
     void increaseCapacity(int increment);
+    
+    boolean removeItems(Bag otherBag);
 } 

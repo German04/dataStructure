@@ -136,28 +136,18 @@ public class ArrayBag implements Bag {
         return copy;
     }
     
-    /**
-     * returns the number of additional items that the ArrayBag has 
-     * room to store. For example, if the maximum size of the bag is 10 and there are 
-     * currently 7 items in the bag, this method should return 3, since the bag has room 
-     * for 3 more items. Hint: This method should only need one or two lines of code.
-     */
     public int roomLeft() {
         return items.length - numItems;
     }
     
-    /**
-     * boolean isEmpty() Ð returns  true if the  ArrayBag is empty, and  false
-     * otherwise 
-     */
+    public int capacity() {
+        return items.length;
+    }
+    
     public boolean isEmpty() {
         return (numItems == 0);
     }
     
-    /**
-     * void increaseCapacity(int increment) Ð increases the maximum capacity of 
-     * the bag by the specified amount
-     */
     public void increaseCapacity(int increment) {
     	
         //increment cannot be <0, thorw exception
@@ -177,6 +167,20 @@ public class ArrayBag implements Bag {
             items = temp;
         }
      }
+    
+    public boolean removeItems(Bag otherBag){
+        // check input
+        if (otherBag == null || otherBag.numItems() == 0)
+            return false;
+        
+        // check if there is enough space in the current bag
+        if(roomLeft() < otherBag.numItems()){
+            return false;
+        }
+        
+        // copy bag
+        return true;
+    }
     /**
      * toString - converts this ArrayBag into a readable String object.
      * Overrides the Object version of this method.
