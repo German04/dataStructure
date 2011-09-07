@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /* 
  * Bag.java
  * 
@@ -50,4 +52,21 @@ public interface Bag {
      * toArray - return an array containing the current contents of the bag
      */
     Object[] toArray();
+    
+    /**
+     * returns the number of additional items that the ArrayBag has 
+     * room to store. For example, if the maximum size of the bag is 10 and there are 
+     * currently 7 items in the bag, this method should return 3, since the bag has room 
+     * for 3 more items. Hint: This method should only need one or two lines of code.
+     * @return int room left in the bag
+     */
+    int roomLeft();
+    
+    /**
+     * boolean isEmpty() Ð returns  true if the  ArrayBag is empty, and  false
+     * otherwise 
+     * @return bool true if the  ArrayBag is empty, and  false
+     * otherwise 
+     */
+    boolean isEmpty();
 } 

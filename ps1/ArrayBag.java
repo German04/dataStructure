@@ -137,6 +137,24 @@ public class ArrayBag implements Bag {
     }
     
     /**
+     * returns the number of additional items that the ArrayBag has 
+     * room to store. For example, if the maximum size of the bag is 10 and there are 
+     * currently 7 items in the bag, this method should return 3, since the bag has room 
+     * for 3 more items. Hint: This method should only need one or two lines of code.
+     */
+    public int roomLeft() {
+        return items.length - numItems;
+    }
+    
+    /**
+     * boolean isEmpty() Ð returns  true if the  ArrayBag is empty, and  false
+     * otherwise 
+     */
+    public boolean isEmpty() {
+        return (numItems == 0);
+    }
+    
+    /**
      * toString - converts this ArrayBag into a readable String object.
      * Overrides the Object version of this method.
      */
@@ -164,9 +182,14 @@ public class ArrayBag implements Bag {
         // Read in strings, add them to bag1, and print out bag1.
         String itemStr;        
         for (int i = 0; i < size; i++) {
+            boolean isEmpty = bag1.isEmpty();
+            System.out.println("Is empty: " + isEmpty);
             System.out.print("item " + i + ": ");
+            // should make sure we write sth
             itemStr = in.nextLine();
             bag1.add(itemStr);
+            int roomLeft = bag1.roomLeft();
+            System.out.println("Room left: " + roomLeft);
         }
         System.out.println("bag 1 = " + bag1);
         System.out.println();
@@ -183,6 +206,9 @@ public class ArrayBag implements Bag {
             System.out.println(items[i]);
         System.out.println();
         
+        boolean isEmpty = bag1.isEmpty();
+        System.out.println("Is empty: " + isEmpty);
+        
         // Get an item to remove from bag1, remove it, and reprint the bag.
         System.out.print("item to remove: ");
         itemStr = in.nextLine();
@@ -190,5 +216,11 @@ public class ArrayBag implements Bag {
             bag1.remove(itemStr);
         System.out.println("bag 1 = " + bag1);
         System.out.println();
+        
+        boolean isEmpty = bag1.isEmpty();
+        System.out.println("Is empty: " + isEmpty);
+        
+        int roomLeft = bag1.roomLeft();
+        System.out.println("Room left: " + roomLeft);
     }
 }
