@@ -16,20 +16,19 @@ public class StringRecursion {
      */
     public static void printLetters(String str){
         //check if string is empty
-        if(str.length() <= 0)
+        if(str == null || str.equals(""))
             return;
         // if not empty, print first letter of the string then remove it
         else{
             String firstLetter = str.substring(0, 1);
-            // not sure about the best way to this comma thing...
+            // not sure about the best way to do this comma thing...
             if(str.length() > 1){
                 System.out.print(firstLetter + ", ");
             }
             else{
                 System.out.print(firstLetter + "\n");
-                System.out.print("Done spelling recursivelly" + "\n");
             }
-        String substring = str.substring(1, str.length());
+        String substring = str.substring(1);
         printLetters(substring);
         }
     }
@@ -41,25 +40,24 @@ public class StringRecursion {
     
     public static int indexOf(char ch, String str){
         
-        if(str.length() <= 0){
+        // base case
+        if(str == null || str.equals("")){
             return -1;
         }
-        
-        //check if string is empty, nothing has been found (or nothing can be found)
+        // check that before recursive call for efficiency
+        // if we found it, we shouldn't go further
         if(ch == str.charAt(0)){
             return 0;
         }
-        // recursion
         else{
-            int index = 1;
-            String substring = str.substring(1, str.length());
-            // not sure if it is the best way to do it,
-            // in case we reach the end of the string without finding the character
-            if(indexOf(ch, substring) == -1){
+            int recursiveIndex = indexOf(ch, str.substring(1));
+            if( recursiveIndex == -1){
                 return -1;
             }
-            return index += indexOf(ch, substring);
+            else{
+                return recursiveIndex +1;
             }
+        }
     }
     
     /**
@@ -68,41 +66,56 @@ public class StringRecursion {
      */
     
     public static String replace(String str, char oldChar, char newChar){
-        // check old and new char
-        if(str.isEmpty()){
+        // base case
+        if(str == null || str.equals("")){
             return "";
         }
         
         //if(oldChar == null)
         //    return "";
         
-        // modify first character
-        String firstCharacter = str.substring(0, 1);
-        if(firstCharacter.equals(Character.toString(oldChar))){
-            firstCharacter = Character.toString(newChar);
+        String newString = replace(str.substring(1), oldChar, newChar);
+        if(str.charAt(0) == oldChar){
+            return newChar + newString;
         }
-        
-        String otherCharacters = str.substring(1, str.length());
-        firstCharacter += replace(otherCharacters, oldChar, newChar);
-        
-        return firstCharacter;
+        else{
+            return str.charAt(0) + newString;
+        }
     }
     
     public static void main(String[] args) {
+    	// RABBIT
+        System.out.println("*************************");
+        System.out.println("\"Rabbit\"");
+        System.out.println("*************************");
         System.out.println("Spelling \"Rabbit\"");
         printLetters("Rabbit");
         int index = indexOf('i', "Rabbit");
         System.out.println("Index Of \"i\" in \"Rabbit\" is:" + index);
         String stringReplace = replace("Rabbit", 'b', 'p');
         System.out.println("Replace \"b\" by \"p\" in \"Rabbit\": " + stringReplace);
+        
+        // I LIKE TO RECURSE
+        System.out.println("*************************");
+        System.out.println("\"I like to recurse!\"");
+        System.out.println("*************************");
         System.out.println("Spelling \"I like to recurse!\"");
         printLetters("I like to recurse!");
         index = indexOf('P', "I like to recurse!");
         System.out.println("Index Of \"P\" in \"I like to recurse!\" is:" + index);
+        stringReplace = replace("I like to recurse!", 'b', 'p');
+        System.out.println("Replace \"b\" by \"p\" in \"I like to recurse!\": " + stringReplace);
+        
+        // ""
+        System.out.println("*************************");
+        System.out.println("\"\"");
+        System.out.println("*************************");
         System.out.println("Spelling \"\"");
         printLetters("");
         index = indexOf('f', "");
         System.out.println("Index Of \"f\" in \"\" is:" + index);
+        stringReplace = replace("", 'b', 'p');
+        System.out.println("Replace \"b\" by \"p\" in \"\": " + stringReplace);
         
         
     }
