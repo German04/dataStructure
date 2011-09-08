@@ -1,9 +1,9 @@
 /* 
  * MagicSquare.java
  * 
- * Author:          Computer Science E-119 staff
- * Modified by:     <your name>, <your e-mail address>
- * Date modified:   <current date>
+ * Author:          Computer Science S-111 staff
+ * Modified by:     Nicolas Rannou, huko.rannou@gmail.com
+ * Date modified:   Fall 2011
  */
 
 import java.util.*;

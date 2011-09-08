@@ -4,8 +4,8 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
  * Bag.java
  * 
  * Author:          Computer Science S-111 staff
- * Modified by:     <your name>, <your e-mail address>
- * Date modified:   <current date>
+ * Modified by:     Nicolas Rannou, huko.rannou@gmail.com
+ * Date modified:   Fall 2011
  */
 
 /**

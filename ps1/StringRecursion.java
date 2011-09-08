@@ -2,8 +2,7 @@
  * StringRecursion.java
  * 
  * Author:          Nicolas Rannou
- * Modified by:     <your name>, <your e-mail address>
- * Date modified:   <current date>
+ * Date modified:   Fall 2011
  */
 
 import java.util.*;
@@ -71,8 +70,8 @@ public class StringRecursion {
             return "";
         }
         
-        //if(oldChar == null)
-        //    return "";
+        if(Character.toString(oldChar) == null)
+            return "";
         
         String newString = replace(str.substring(1), oldChar, newChar);
         if(str.charAt(0) == oldChar){
