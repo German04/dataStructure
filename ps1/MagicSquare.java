@@ -15,6 +15,10 @@ public class MagicSquare {
 
     // the order (i.e., the dimension) of the puzzle
     private int order;
+    
+    // numbers to be assigned
+    // list might be more efficient to remove index
+    private int[] tobeassigned;
 
     /**
      * Creates a MagicSquare object for a puzzle with the specified
@@ -26,6 +30,12 @@ public class MagicSquare {
 
         // Add code to this constructor as needed to initialize
         // the fields that you add to the object.
+        System.out.println("to be assigned: ");
+        tobeassigned = new int[order*order];
+        for(int i=1; i<order*order+1; i++){
+          tobeassigned[i-1] = i;
+          System.out.println(tobeassigned[i-1]);
+        }
     }
 
     /**
@@ -34,12 +44,109 @@ public class MagicSquare {
      * It should return true if a solution is found, and false otherwise.
      */
     public boolean solve() {
-        // Replace the line below with your implementation of this method.
-        // REMEMBER: The recursive-backtracking code should NOT go here.
-        // See the comments above.
+        return findSolutions(0, tobeassigned);
+    }
+    
+    /**
+     * Backtracking method
+     */
+    
+    private boolean findSolutions( int position, int[] param){
+        
+        if(position == order*order){
+          return true;
+        }
+        
+        // go though parameters
+        for(int i=0; i<param.length; i++){
+          if(isSafe(position, param[i])){
+            // place number
+            placeNumber(position, param[i]);
+            
+            // not efficient to use array...?
+            // very time consuming
+            // create new array without parameter
+            int[] new_param = new int[param.length -1];
+            int pos = 0;
+            for(int j=0; j<param.length; j++){
+              if(param[j] != param[i]){
+                new_param[pos] = param[j];
+                ++pos;
+              }
+            }
+            
+            // recursive call
+            boolean success = findSolutions(position+1, new_param);
+            
+            // if we reach the end, return true, else loop....
+            if(success){
+              return success;
+            }
+            else{
+              removeNumber(position);
+            }
+            
+          }
+        }
         return false;
     }
+    
+    /**
+     * Check if location is safe
+     * @param position
+     * @param value
+     * @return
+     */
+    private boolean isSafe(int position, int value){
+      //
+      int magicSum = (order*order*order + order)/2;
+      
+      int max_column = position/order;
+      int max_row = position%order;
+      
+      //check sum < number
+      // in columns
+      for(int i=0; i<max_column; i++){
+        int sum = 0;
+        for(int j=0; j<max_row; j++){
+          sum += values[i][j];
+        }
+        sum+= value;
+        
+        if(sum > magicSum)
+          return false;
+      }
+    
+      // in rows
+      for(int i=0; i<max_column; i++){
+        int sum = 0;
+        for(int j=0; j<max_row; j++){
+          sum += values[j][i];
+        }
+        sum += value;
+        
+        if(sum > magicSum)
+          return false;
+      }
+      
+      return true;
+    }
+    
+    /**
+     * Add number if location is safe
+     * @param position
+     * @param value
+     */
+    private void placeNumber(int position, int value){
+      // add value in array
+      values[position/order][position%order] = value;
+      }
 
+    private void removeNumber(int position){
+        // add value in array
+        values[position/order][position%order] = 0;
+        }
+    
     /**
      * Displays the current state of the puzzle.
      * You should not change this method.
