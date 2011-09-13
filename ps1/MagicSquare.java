@@ -19,6 +19,8 @@ public class MagicSquare {
     // numbers to be assigned
     // list might be more efficient to remove index
     private int[] tobeassigned;
+    
+    private int magicSum;
 
     /**
      * Creates a MagicSquare object for a puzzle with the specified
@@ -27,15 +29,18 @@ public class MagicSquare {
     public MagicSquare(int order) {
         values = new int[order][order];
         this.order = order;
+        magicSum = order*(order*order + 1)/2;
+        System.out.print("magic sum: " + magicSum + "\n");
 
         // Add code to this constructor as needed to initialize
         // the fields that you add to the object.
-        System.out.println("to be assigned: ");
+        System.out.print("to be assigned: ");
         tobeassigned = new int[order*order];
         for(int i=1; i<order*order+1; i++){
           tobeassigned[i-1] = i;
-          System.out.println(tobeassigned[i-1]);
+          System.out.print(tobeassigned[i-1] + " ");
         }
+        System.out.print("\n");
     }
 
     /**
@@ -52,7 +57,6 @@ public class MagicSquare {
      */
     
     private boolean findSolutions( int position, int[] param){
-        
         if(position == order*order){
           return true;
         }
@@ -63,9 +67,11 @@ public class MagicSquare {
             // place number
             placeNumber(position, param[i]);
             
-            // not efficient to use array...?
+            // not efficient to use array...
             // very time consuming
             // create new array without parameter
+            // which kind of array are we alloweed to use?
+            // are we allow to use lists?
             int[] new_param = new int[param.length -1];
             int pos = 0;
             for(int j=0; j<param.length; j++){
@@ -76,58 +82,38 @@ public class MagicSquare {
             }
             
             // recursive call
-            boolean success = findSolutions(position+1, new_param);
+            if(findSolutions(position+1, new_param))
+              return true;
             
-            // if we reach the end, return true, else loop....
-            if(success){
-              return success;
-            }
-            else{
-              removeNumber(position);
-            }
-            
+            removeNumber(position);
           }
         }
         return false;
     }
     
     /**
-     * Check if location is safe
+     * Check if location is safe, check if sum in columns and rows > magicSum
      * @param position
      * @param value
      * @return
      */
     private boolean isSafe(int position, int value){
       //
-      int magicSum = (order*order*order + order)/2;
+      int current_row = position/order;
+      int current_column = position%order;
       
-      int max_column = position/order;
-      int max_row = position%order;
+      int sum_row = 0;
+      int sum_col = 0;
       
-      //check sum < number
-      // in columns
-      for(int i=0; i<max_column; i++){
-        int sum = 0;
-        for(int j=0; j<max_row; j++){
-          sum += values[i][j];
-        }
-        sum+= value;
-        
-        if(sum > magicSum)
-          return false;
+      for(int i=0; i<order; i++){
+        sum_row += values[current_row][i];
+        sum_col += values[i][current_column];
       }
-    
-      // in rows
-      for(int i=0; i<max_column; i++){
-        int sum = 0;
-        for(int j=0; j<max_row; j++){
-          sum += values[j][i];
-        }
-        sum += value;
-        
-        if(sum > magicSum)
-          return false;
-      }
+      sum_row += value;
+      sum_col += value;
+      
+      if(sum_row > magicSum || sum_col > magicSum)
+        return false;
       
       return true;
     }
@@ -143,7 +129,7 @@ public class MagicSquare {
       }
 
     private void removeNumber(int position){
-        // add value in array
+        // set value to 0in array
         values[position/order][position%order] = 0;
         }
     
