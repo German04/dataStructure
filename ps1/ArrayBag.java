@@ -69,6 +69,7 @@ public class ArrayBag implements Bag {
         for (int i = 0; i < numItems; i++) {
             if (items[i] != null && items[i].equals(item)) {
                 // Shift the remaining items left by one.
+                // no array copy!
                 System.arraycopy(items, i+1, items, i, numItems-i-1);
                 items[numItems-1] = null;
                 
@@ -132,6 +133,7 @@ public class ArrayBag implements Bag {
      */
     public Object[] toArray() {
         Object[] copy = new Object[numItems];
+        // no array copy!
         System.arraycopy(items, 0, copy, 0, numItems);
         return copy;
     }
@@ -166,6 +168,7 @@ public class ArrayBag implements Bag {
         //increment >0, create new array, copy, etc..
         else{
             Object[] temp = new Object[items.length + increment];
+            // no array copy!
             System.arraycopy(items, 0, temp, 0, items.length);
             // copy pointer address
             items = temp;

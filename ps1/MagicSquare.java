@@ -32,15 +32,23 @@ public class MagicSquare {
         magicSum = order*(order*order + 1)/2;
         System.out.print("magic sum: " + magicSum + "\n");
 
-        // Add code to this constructor as needed to initialize
-        // the fields that you add to the object.
-        System.out.print("to be assigned: ");
+        // Numbers in array shouldn't be ordered for a better efficiency...
+        System.out.println("to be assigned: ");
         tobeassigned = new int[order*order];
+        int decrement = 0;
         for(int i=1; i<order*order+1; i++){
-          tobeassigned[i-1] = i;
-          System.out.print(tobeassigned[i-1] + " ");
+          // decrement
+          if(i%2 == 0){
+          tobeassigned[order*order - decrement -1] = i;
+          System.out.println("position: " + (order*order - decrement -1) + " -> " + tobeassigned[order*order - decrement -1] + " ");
+          decrement ++;
+          }
+          else{
+          // increment
+          tobeassigned[(i-1)/2] = i;
+          System.out.println("position: " + ((i-1)/2) + " -> " + tobeassigned[(i-1)/2] + " ");
+          }
         }
-        System.out.print("\n");
     }
 
     /**
@@ -49,11 +57,21 @@ public class MagicSquare {
      * It should return true if a solution is found, and false otherwise.
      */
     public boolean solve() {
-        return findSolutions(0, tobeassigned);
+        // calculate execution time
+        long startTime = System.currentTimeMillis();
+        Boolean solved =  findSolutions(0, tobeassigned);
+        // calculate execution time
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("execution time: " + totalTime + " ms");
+        
+        return solved;
     }
     
     /**
      * Backtracking method
+     * Should iterate through "order"
+     * convert order to pos to fill corner by corner
      */
     
     private boolean findSolutions( int position, int[] param){
@@ -102,18 +120,27 @@ public class MagicSquare {
       int current_row = position/order;
       int current_column = position%order;
       
-      int sum_row = 0;
-      int sum_col = 0;
+      if(current_column + 1 == order){
+        int sum_row = 0;
+        for(int i=0; i<order; i++){
+          sum_row += values[current_row][i];
+        }
+        sum_row += value;
       
-      for(int i=0; i<order; i++){
-        sum_row += values[current_row][i];
-        sum_col += values[i][current_column];
+        if(sum_row > magicSum)
+          return false;
       }
-      sum_row += value;
-      sum_col += value;
       
-      if(sum_row > magicSum || sum_col > magicSum)
-        return false;
+      if(current_row + 1 == order){
+        int sum_col = 0;
+        for(int i=0; i<order; i++){
+          sum_col += values[i][current_column];
+        }
+        sum_col += value;
+      
+        if(sum_col > magicSum)
+          return false;
+      }
       
       return true;
     }
