@@ -15,6 +15,9 @@ public class MagicSquare {
 
     // the order (i.e., the dimension) of the puzzle
     private int order;
+    //private int column;
+    //private int row;
+    //private int global_iteration;
     
     // numbers to be assigned
     // list might be more efficient to remove index
@@ -38,7 +41,7 @@ public class MagicSquare {
         int decrement = 0;
         for(int i=1; i<order*order+1; i++){
           // decrement
-          if(i%2 == 0){
+         if(i%2 == 0){
           tobeassigned[order*order - decrement -1] = i;
           System.out.println("position: " + (order*order - decrement -1) + " -> " + tobeassigned[order*order - decrement -1] + " ");
           decrement ++;
@@ -59,7 +62,7 @@ public class MagicSquare {
     public boolean solve() {
         // calculate execution time
         long startTime = System.currentTimeMillis();
-        Boolean solved =  findSolutions(0, tobeassigned);
+        Boolean solved =  findSolutions(0, 0, 0, tobeassigned);
         // calculate execution time
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
@@ -74,42 +77,43 @@ public class MagicSquare {
      * convert order to pos to fill corner by corner
      */
     
-    private boolean findSolutions( int position, int[] param){
-        if(position == order*order){
+    private boolean findSolutions(int row, int column, int global_iteration, int[] param){
+        if(global_iteration == order){
           return true;
         }
         
-        // convert position to smartposition
-        int smartposition = convertPosition(position);
-        //System.out.println("smartposition: " + smartposition);
-        
-        // go though parameters
         for(int i=0; i<param.length; i++){
-          if(isSafe(smartposition, param[i])){
-            // place number
-            placeNumber(smartposition, param[i]);
+            if(isSafe(row, column, global_iteration, param[i])){
+              placeNumber(row +global_iteration, column, param[i]);
+              
+              // new parameter set
+              int[] new_param = new int[param.length -1];
+              int pos = 0;
+              for(int j=0; j<param.length; j++){
+                if(param[j] != param[i]){
+                  new_param[pos] = param[j];
+                  ++pos;
+                  }
+              }
+              Boolean solved;
+              if(column < order - global_iteration - 1){
+                solved = findSolutions(row, column+1, global_iteration, new_param);
+                }
+              else if(row < order - global_iteration - 1){
+                solved = findSolutions(row+1, column, global_iteration, new_param);
+              }
+              else{
+                solved = findSolutions(0, 0, global_iteration+1, new_param);
+              }
             
-            // not efficient to use array...
-            // very time consuming
-            // create new array without parameter
-            // which kind of array are we alloweed to use?
-            // are we allow to use lists?
-            int[] new_param = new int[param.length -1];
-            int pos = 0;
-            for(int j=0; j<param.length; j++){
-              if(param[j] != param[i]){
-                new_param[pos] = param[j];
-                ++pos;
+              if(solved){
+                return true;
+              }
+              else{
+                removeNumber(row + global_iteration, column);
               }
             }
-            
-            // recursive call
-            if(findSolutions(position+1, new_param))
-              return true;
-            
-            removeNumber(smartposition);
           }
-        }
         return false;
     }
     
@@ -119,30 +123,26 @@ public class MagicSquare {
      * @param value
      * @return
      */
-    private boolean isSafe(int position, int value){
-      //
-      int current_row = position/order;
-      int current_column = position%order;
-      
-      if(current_column + 1 == order){
+    private boolean isSafe(int row, int col, int global_it, int value){
+      if(col == order - global_it -1 && row == 0){
         int sum_row = 0;
         for(int i=0; i<order; i++){
-          sum_row += values[current_row][i];
+          sum_row += values[row+global_it][i];
         }
-        sum_row += value;
+        sum_row+=value;
       
-        if(sum_row > magicSum)
+        if(sum_row != magicSum)
           return false;
       }
       
-      if(current_row + 1 == order){
+      if(row == order - 1){
         int sum_col = 0;
         for(int i=0; i<order; i++){
-          sum_col += values[i][current_column];
+          sum_col += values[i][col];
         }
         sum_col += value;
       
-        if(sum_col > magicSum)
+        if(sum_col != magicSum)
           return false;
       }
       
@@ -154,74 +154,14 @@ public class MagicSquare {
      * @param position
      * @param value
      */
-    private void placeNumber(int position, int value){
+    private void placeNumber(int row, int column, int value){
       // add value in array
-      values[position/order][position%order] = value;
+      values[row][column] = value;
       }
 
-    private void removeNumber(int position){
+    private void removeNumber(int row, int column){
         // set value to 0in array
-        values[position/order][position%order] = 0;
-        }
-    
-    private int convertPosition(int position){
-    	
-    	if(position == 0){
-    		return 0;
-    	}
-    	
-        int division = 1;
-        
-        int increment = 0;
-        int div = 2*order - 1 ;
-        int width = order;
-        
-        // get increment
-        while(division != 0){
-          division = position/(div);
-          
-          width--;
-          div+= (width*2 -1);
-          increment++;
-        }
-        
-        increment--;
-        div-= (width*2 -1) +width +1;
-        div-=1;
-        width++;
-        
-        
-        
-        //if(position==7){
-        
-        // use increment to get new coordinates
-        int origin = (increment)*(order + 1); 
-        int depth = position - div - 1;
-        int diff = depth - width;
-        	
-        /*System.out.println("position: " + position);
-        System.out.println("origin: " + origin);
-        System.out.println("increment: " + (increment));
-        System.out.println("width: " + (width));
-        System.out.println("div: " + div);
-        System.out.println("depth: " + depth);
-        //System.out.println("to add: " + toadd);
-        System.out.println("position: " + position);
-        System.out.println("diff: " + diff);*/
-    	int test = width + diff;
-        int offset = (width*2 -1) + diff;
-    	
-        if(test>0){
-        	//System.out.println("new position: " + (origin+(test)*(order)));
-        	return (origin+(test)*(order));
-        }
-        else{
-        	//System.out.println("new position: " + (origin+offset));
-        	return (origin+offset);
-        }
-        //}
-        //int smartPosition = position;
-        //return smartPosition;
+        values[row][column] = 0;
         }
     
     /**
