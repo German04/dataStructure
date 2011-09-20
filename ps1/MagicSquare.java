@@ -79,11 +79,15 @@ public class MagicSquare {
           return true;
         }
         
+        // convert position to smartposition
+        int smartposition = convertPosition(position);
+        //System.out.println("smartposition: " + smartposition);
+        
         // go though parameters
         for(int i=0; i<param.length; i++){
-          if(isSafe(position, param[i])){
+          if(isSafe(smartposition, param[i])){
             // place number
-            placeNumber(position, param[i]);
+            placeNumber(smartposition, param[i]);
             
             // not efficient to use array...
             // very time consuming
@@ -103,7 +107,7 @@ public class MagicSquare {
             if(findSolutions(position+1, new_param))
               return true;
             
-            removeNumber(position);
+            removeNumber(smartposition);
           }
         }
         return false;
@@ -158,6 +162,66 @@ public class MagicSquare {
     private void removeNumber(int position){
         // set value to 0in array
         values[position/order][position%order] = 0;
+        }
+    
+    private int convertPosition(int position){
+    	
+    	if(position == 0){
+    		return 0;
+    	}
+    	
+        int division = 1;
+        
+        int increment = 0;
+        int div = 2*order - 1 ;
+        int width = order;
+        
+        // get increment
+        while(division != 0){
+          division = position/(div);
+          
+          width--;
+          div+= (width*2 -1);
+          increment++;
+        }
+        
+        increment--;
+        div-= (width*2 -1) +width +1;
+        div-=1;
+        width++;
+        
+        
+        
+        //if(position==7){
+        
+        // use increment to get new coordinates
+        int origin = (increment)*(order + 1); 
+        int depth = position - div - 1;
+        int diff = depth - width;
+        	
+        /*System.out.println("position: " + position);
+        System.out.println("origin: " + origin);
+        System.out.println("increment: " + (increment));
+        System.out.println("width: " + (width));
+        System.out.println("div: " + div);
+        System.out.println("depth: " + depth);
+        //System.out.println("to add: " + toadd);
+        System.out.println("position: " + position);
+        System.out.println("diff: " + diff);*/
+    	int test = width + diff;
+        int offset = (width*2 -1) + diff;
+    	
+        if(test>0){
+        	//System.out.println("new position: " + (origin+(test)*(order)));
+        	return (origin+(test)*(order));
+        }
+        else{
+        	//System.out.println("new position: " + (origin+offset));
+        	return (origin+offset);
+        }
+        //}
+        //int smartPosition = position;
+        //return smartPosition;
         }
     
     /**
