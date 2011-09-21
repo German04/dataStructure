@@ -15,14 +15,12 @@ public class MagicSquare {
 
     // the order (i.e., the dimension) of the puzzle
     private int order;
-    //private int column;
-    //private int row;
-    //private int global_iteration;
     
     // numbers to be assigned
-    // list might be more efficient to remove index
+    // list might be more efficient to remove index?
     private int[] tobeassigned;
     
+    // the magic sum!
     private int magicSum;
 
     /**
@@ -32,12 +30,12 @@ public class MagicSquare {
     public MagicSquare(int order) {
         values = new int[order][order];
         this.order = order;
+        // we don't want to compute it each time we need it!
         magicSum = order*(order*order + 1)/2;
         System.out.print("magic sum: " + magicSum + "\n");
 
         // Numbers in array shouldn't be ordered for a better efficiency...
-        // divide execution time by 4 for range 5!
-        System.out.println("order numbers to be assigned in a smart way: ");
+        System.out.println("We reorder numbers to be assigned,  in a \"smart\" way: ");
         tobeassigned = new int[order*order];
         int decrement = 0;
         for(int i=1; i<order*order+1; i++){
@@ -74,13 +72,29 @@ public class MagicSquare {
     
     /**
      * Backtracking method
-     * Should iterate through "order"
-     * convert order to pos to fill corner by corner
+     * param: numbers which still have to be assigned
+     * global_iteration:
+     * 0-> we are on the ousite layer of the square:
+     * x: where we are working
+     * A: assigned
+     * order4:
+     * x x x x
+     * 0 0 0 x
+     * 0 0 0 x
+     * 0 0 0 x
+     * 1-> we go one step inside
+     * A A A A
+     * x x x A
+     * 0 0 x A
+     * 0 0 x A
+     * etc....
+     * we use "global_iteration" to efficiently parse the square:
+     * first row -> last column -> remaining 2nd row -> remaining last-1 column, etc.
      */
     
     private boolean findSolutions(int row, int column, int global_iteration, int[] param){
     
-        // base case
+        // base case, if reached we are done!
         if(global_iteration == order){
           return true;
         }
@@ -89,8 +103,8 @@ public class MagicSquare {
         for(int i=0; i<param.length; i++){
             if(isSafe(row, column, global_iteration, param[i])){
               placeNumber(row +global_iteration, column, param[i]);
-              
-              // new parameter set
+              // new parameter set, we remove the one which has been assigned
+              // not efficient at all, better use a list?
               int[] new_param = new int[param.length -1];
               int pos = 0;
               for(int j=0; j<param.length; j++){
@@ -122,10 +136,7 @@ public class MagicSquare {
     }
     
     /**
-     * Check if location is safe, check if sum in columns and rows > magicSum
-     * @param position
-     * @param value
-     * @return
+     * When row or column is full, check if sum in columns and rows != magicSum
      */
     private boolean isSafe(int row, int col, int global_it, int value){
       if(col == order - global_it -1 && row == 0){
@@ -154,15 +165,16 @@ public class MagicSquare {
     }
     
     /**
-     * Add number if location is safe
-     * @param position
-     * @param value
+     * Add number to magic square
      */
     private void placeNumber(int row, int column, int value){
       // add value in array
       values[row][column] = value;
       }
 
+    /**
+     * Remove number from magic square
+     */
     private void removeNumber(int row, int column){
         // set value to 0in array
         values[row][column] = 0;
