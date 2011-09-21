@@ -20,9 +20,9 @@ public class ArrayBag implements Bag {
     /** 
      * The number of items in the bag.
      */
-    private int numItems;
+    private Integer numItems;
     
-    public static final int DEFAULT_MAX_SIZE = 50;
+    public static final Integer DEFAULT_MAX_SIZE = 50;
     
     /**
      * Default, no-arg constructor - creates a new, empty ArrayBag with 
@@ -37,7 +37,7 @@ public class ArrayBag implements Bag {
      * A constructor that creates a new, empty ArrayBag with the specified
      * maximum size.
      */
-    public ArrayBag(int maxSize) {
+    public ArrayBag(Integer maxSize) {
         if (maxSize <= 0)
             throw new IllegalArgumentException("maxSize must be > 0");
         items = new Object[maxSize];
@@ -66,7 +66,7 @@ public class ArrayBag implements Bag {
      * specified item (i.e., an object equal to item) is not in the Bag.
      */
     public boolean remove(Object item) {
-        for (int i = 0; i < numItems; i++) {
+        for (Integer i = 0; i < numItems; i++) {
             if (items[i] != null && items[i].equals(item)) {
                 // Shift the remaining items left by one.
                 // no array copy!
@@ -86,7 +86,7 @@ public class ArrayBag implements Bag {
      * false otherwise.
      */
     public boolean contains(Object item) {
-        for (int i = 0; i < numItems; i++) {
+        for (Integer i = 0; i < numItems; i++) {
             if (items[i] != null && items[i].equals(item))
                 return true;
         }
@@ -103,7 +103,7 @@ public class ArrayBag implements Bag {
             return false;
         
         Object[] otherItems = otherBag.toArray();
-        for (int i = 0; i < otherItems.length; i++) {
+        for (Integer i = 0; i < otherItems.length; i++) {
             if (!contains(otherItems[i]))
                 return false;
         }
@@ -114,7 +114,7 @@ public class ArrayBag implements Bag {
     /**
      * numItems - returns the number of items in the Bag.
      */
-    public int numItems() {
+    public Integer numItems() {
         return numItems;
     }
     
@@ -124,7 +124,7 @@ public class ArrayBag implements Bag {
     public Object grab() {
         if (numItems == 0)
             throw new NoSuchElementException("the bag is empty");
-        int whichOne = (int)(Math.random() * numItems);
+        Integer whichOne = (int)(Math.random() * numItems);
         return items[whichOne];
     }
     
@@ -138,11 +138,11 @@ public class ArrayBag implements Bag {
         return copy;
     }
     
-    public int roomLeft() {
+    public Integer roomLeft() {
         return items.length - numItems;
     }
     
-    public int capacity() {
+    public Integer capacity() {
         return items.length;
     }
     
@@ -154,9 +154,8 @@ public class ArrayBag implements Bag {
         return (numItems == items.length);
     }
     
-    public void increaseCapacity(int increment) {
-    	
-        //increment cannot be <0, thorw exception
+    public void increaseCapacity(Integer increment) {
+        //increment cannot be <0, throw exception
         if(increment < 0) {
             throw new IllegalArgumentException("increment cannot be < 0");
         }
@@ -169,7 +168,10 @@ public class ArrayBag implements Bag {
         else{
             Object[] temp = new Object[items.length + increment];
             // no array copy!
-            System.arraycopy(items, 0, temp, 0, items.length);
+            //System.arraycopy(items, 0, temp, 0, items.length);
+            for(Integer i=0; i<items.length; ++i){
+              temp[i] = items[i];
+            }
             // copy pointer address
             items = temp;
         }
@@ -179,10 +181,11 @@ public class ArrayBag implements Bag {
         // check input
         if (otherBag == null || otherBag.numItems() == 0)
             return false;
+        
         boolean removedSth = false;
         
         Object[] otherItems = otherBag.toArray();
-        for (int i = 0; i < otherItems.length; i++) {
+        for (Integer i = 0; i < otherItems.length; i++) {
             while (contains(otherItems[i])){
                 removedSth = remove(otherItems[i]);
             }
@@ -199,14 +202,14 @@ public class ArrayBag implements Bag {
         // Go through all bags and add value if the "union bag" doesn't already contain it
         // Go though current bag
         Object[] otherItems = this.toArray();
-        for (int i = 0; i < otherItems.length; i++) {
+        for (Integer i = 0; i < otherItems.length; i++) {
             if (!unionBag.contains(otherItems[i])){
                 unionBag.add(otherItems[i]);
             }
         }
         // Go through other bag
         otherItems = otherBag.toArray();
-        for (int i = 0; i < otherItems.length; i++) {
+        for (Integer i = 0; i < otherItems.length; i++) {
             if (!unionBag.contains(otherItems[i])){
                 unionBag.add(otherItems[i]);
             }
@@ -222,7 +225,7 @@ public class ArrayBag implements Bag {
     public String toString() {
         String str = "{";
         
-        for (int i = 0; i < numItems; i++)
+        for (Integer i = 0; i < numItems; i++)
             str = str + " " + items[i];
         str = str + " }";
         
@@ -235,22 +238,18 @@ public class ArrayBag implements Bag {
         Scanner in = new Scanner(System.in);
         
         // Create an ArrayBag named bag1.
-        System.out.print("Size of bag 1: ");
-        int size = in.nextInt();
+        System.out.print("Size of bag 1:");
+        Integer size = in.nextInt();
         Bag bag1 = new ArrayBag(size);
         in.nextLine();    // consume the rest of the line
         
         // Read in strings, add them to bag1, and print out bag1.
         String itemStr;        
-        for (int i = 0; i < size; i++) {
-            boolean isEmpty = bag1.isEmpty();
-            System.out.println("Is empty: " + isEmpty);
+        for (Integer i = 0; i < size; i++) {
             System.out.print("item " + i + ": ");
             // should make sure we write sth
             itemStr = in.nextLine();
             bag1.add(itemStr);
-            int roomLeft = bag1.roomLeft();
-            System.out.println("Room left: " + roomLeft);
         }
         System.out.println("bag 1 = " + bag1);
         System.out.println();
@@ -260,41 +259,53 @@ public class ArrayBag implements Bag {
         System.out.println("grabbed " + item);
         System.out.println();
         
-        // Iterate over the objects in bag1, printing them one per
-        // line.
-        Object[] items = bag1.toArray();
-        for (int i = 0; i < items.length; i++)
-            System.out.println(items[i]);
-        System.out.println();
+        // test capacity
+        Integer capacity = bag1.capacity();
+        System.out.println("capacity: " + capacity);
         
-        boolean isEmpty = bag1.isEmpty();
-        System.out.println("Is empty: " + isEmpty);
-        
-        // Get an item to remove from bag1, remove it, and reprint the bag.
-        System.out.print("item to remove: ");
-        itemStr = in.nextLine();
-        if (bag1.contains(itemStr))
-            bag1.remove(itemStr);
-        System.out.println("bag 1 = " + bag1);
-        System.out.println();
-        
-        isEmpty = bag1.isEmpty();
-        System.out.println("Is empty: " + isEmpty);
-        
-        int roomLeft = bag1.roomLeft();
-        System.out.println("Room left: " + roomLeft);
+        // test isFull
+        Boolean isFull = bag1.isFull();
+        System.out.println("is full: " + isFull);
         
         // increase capacity
-        System.out.print("increase capacity: ");
-        itemStr = in.nextLine();
-        bag1.increaseCapacity( Integer.parseInt(itemStr) );
+        System.out.print("increase capacity ");
+        // should make sure we write sth
+        Integer increment = in.nextInt();
+        bag1.increaseCapacity(increment);
         
-        roomLeft = bag1.roomLeft();
-        System.out.println("Room left: " + roomLeft);
+        // test capacity
+        capacity = bag1.capacity();
+        System.out.println("capacity: " + capacity);
         
-        // Iterate over the objects in bag1, printing them one per
-        // line.
+        // test isFull
+        isFull = bag1.isFull();
+        System.out.println("is full: " + isFull);
+        
+        // remove item
+        // Create an ArrayBag named bag1.
+        System.out.print("Size of bag 2:");
+        size = in.nextInt();
+        Bag bag2 = new ArrayBag(size);
+        in.nextLine();    // consume the rest of the line
+        
+        // Read in strings, add them to bag1, and print out bag1.
+        for (Integer i = 0; i < size; i++) {
+            System.out.print("item " + i + ": ");
+            // should make sure we write sth
+            itemStr = in.nextLine();
+            bag2.add(itemStr);
+        }
+        System.out.println("bag 2 = " + bag2);
+        System.out.println();
+        //
+        Boolean removed = bag1.removeItems(bag2);
+        System.out.println("removed items: " + removed);
         System.out.println("bag 1 = " + bag1);
+        System.out.println();
+        
+        // union with
+        Bag union = bag1.unionWith(bag2);
+        System.out.println("union = " + union);
         System.out.println();
     }
 }

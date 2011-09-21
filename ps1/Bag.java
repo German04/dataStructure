@@ -41,7 +41,7 @@ public interface Bag {
     /**
      * returns the number of items in the Bag.
      */
-    int numItems();
+    Integer numItems();
 
     /**
      * grab - returns a reference to a randomly chosen in the Bag.
@@ -53,15 +53,15 @@ public interface Bag {
      */
     Object[] toArray();
     
-    int roomLeft();
+    Integer roomLeft();
     
-    int capacity();
+    Integer capacity();
     
     boolean isEmpty();
     
     boolean isFull();
     
-    void increaseCapacity(int increment);
+    void increaseCapacity(Integer increment);
     
     boolean removeItems(Bag otherBag);
     
