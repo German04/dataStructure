@@ -14,22 +14,19 @@ public class StringRecursion {
      * @param str
      */
     public static void printLetters(String str){
+        if(str == null)
+          return;
+
         //check if string is empty
-        if(str == null || str.equals(""))
-            return;
+        if(str.length() <= 1){
+          System.out.print(str + "\n");
+          return;
+        }
+        
         // if not empty, print first letter of the string then remove it
-        else{
-            String firstLetter = str.substring(0, 1);
-            // not sure about the best way to do this comma thing...
-            if(str.length() > 1){
-                System.out.print(firstLetter + ", ");
-            }
-            else{
-                System.out.print(firstLetter + "\n");
-            }
+        System.out.print(str.charAt(0) + ", ");
         String substring = str.substring(1);
         printLetters(substring);
-        }
     }
     
     /**

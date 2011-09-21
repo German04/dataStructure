@@ -1,3 +1,11 @@
+/* 
+ * written_excercise.java
+ * 
+ * For:          Computer Science S-111 staff
+ * Created by:     Nicolas Rannou, huko.rannou@gmail.com
+ * Date modified:   Fall 2011
+ */
+
 import java.util.*;
 
 public class written_exercise {
