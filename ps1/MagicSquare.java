@@ -36,7 +36,8 @@ public class MagicSquare {
         System.out.print("magic sum: " + magicSum + "\n");
 
         // Numbers in array shouldn't be ordered for a better efficiency...
-        System.out.println("to be assigned: ");
+        // divide execution time by 4 for range 5!
+        System.out.println("order numbers to be assigned in a smart way: ");
         tobeassigned = new int[order*order];
         int decrement = 0;
         for(int i=1; i<order*order+1; i++){
@@ -78,10 +79,13 @@ public class MagicSquare {
      */
     
     private boolean findSolutions(int row, int column, int global_iteration, int[] param){
+    
+        // base case
         if(global_iteration == order){
           return true;
         }
         
+        // go through list to be assigned
         for(int i=0; i<param.length; i++){
             if(isSafe(row, column, global_iteration, param[i])){
               placeNumber(row +global_iteration, column, param[i]);
