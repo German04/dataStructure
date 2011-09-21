@@ -35,25 +35,21 @@ public class StringRecursion {
      */
     
     public static int indexOf(char ch, String str){
-        
-        // base case
         if(str == null || str.equals("")){
             return -1;
         }
-        // check that before recursive call for efficiency
-        // if we found it, we shouldn't go further
-        if(ch == str.charAt(0)){
+
+        if(ch == str.charAt(0))
             return 0;
-        }
+        
+        int recursiveIndex = indexOf(ch, str.substring(1));
+        
+        if( recursiveIndex == -1){
+            return -1;
+            }
         else{
-            int recursiveIndex = indexOf(ch, str.substring(1));
-            if( recursiveIndex == -1){
-                return -1;
+            return recursiveIndex +1;
             }
-            else{
-                return recursiveIndex +1;
-            }
-        }
     }
     
     /**
