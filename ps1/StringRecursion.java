@@ -59,12 +59,11 @@ public class StringRecursion {
     
     public static String replace(String str, char oldChar, char newChar){
         // base case
-        if(str == null || str.equals("")){
-            return "";
-        }
+        if(str == null)
+          return null;
         
-        if(Character.toString(oldChar) == null)
-            return "";
+        if(str.equals(""))
+          return "";
         
         String newString = replace(str.substring(1), oldChar, newChar);
         if(str.charAt(0) == oldChar){
@@ -76,7 +75,7 @@ public class StringRecursion {
     }
     
     public static void main(String[] args) {
-    	// RABBIT
+        // RABBIT
         System.out.println("*************************");
         System.out.println("\"Rabbit\"");
         System.out.println("*************************");
