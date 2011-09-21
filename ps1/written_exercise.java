@@ -78,6 +78,13 @@ public class written_exercise {
   return recursive_search(item, arr, i+1);
   }
   
+  public static Integer mystery(Integer a, Integer b){
+    if(a*b == 0)
+      return a;
+    else
+      return b + mystery(a-1, b-2);
+  }
+  
   public static void main(String[] args) {
   
     System.out.print("-----------------------\n");
@@ -127,6 +134,11 @@ public class written_exercise {
     System.out.print("\n");
     found = recursive_search(valueString, testArrayString, 0);
     System.out.print("search " + valueString + " in of {h, e, l, l, 0}: " + found);
+    System.out.print("\n");
+    
+    // mystery
+    System.out.print("-----------------------\n");
+    System.out.print("mystery(5,6): " + mystery(5,6));
     System.out.print("\n");
   }
   
