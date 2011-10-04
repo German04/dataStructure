@@ -24,7 +24,7 @@
  * altering the original array.
  */
 public class Sort {
-    public static final int NUM_ELEMENTS = 10;
+    public static final int NUM_ELEMENTS = 20;
 
     /*
      * swap - swap the values of two variables.
@@ -212,6 +212,31 @@ public class Sort {
 
         System.out.println("}");
     }
+    
+    /**
+     * removeDups - Remove duplicates from an already sorted array
+     * \return int number of unique values in the array
+     */
+    private static Integer removeDups(int[] iSortedArr) {
+      Integer nbUniqueValues = 1;
+      Integer position = 1;
+      
+      // the first element is at the good position
+      for(Integer i=1; i<iSortedArr.length; i++){
+        if (iSortedArr[i-1] != iSortedArr[i]){
+          iSortedArr[position] = iSortedArr[i];
+          position++;
+          nbUniqueValues++;
+          }
+        }
+      
+      // fill the end of the array with 0s
+      for(Integer i=0; i<iSortedArr.length - nbUniqueValues; i++){
+          iSortedArr[nbUniqueValues+i] = 0;
+          }
+      
+      return nbUniqueValues;
+    }
 
     public static void main(String[] arr) { 
         int[] orig = new int[NUM_ELEMENTS];
@@ -219,7 +244,7 @@ public class Sort {
             orig[i] = (int)(50 * Math.random());
         }
         printArray(orig);
-
+        
         int[] copy = new int[NUM_ELEMENTS];
 
         /* selection sort */
@@ -256,6 +281,12 @@ public class Sort {
         System.arraycopy(orig, 0, copy, 0, orig.length); 
         mergeSort(copy);
         System.out.print("mergesort:\t");
+        printArray(copy);
+        
+        /* remove duplicates */
+        Integer nbUniques = removeDups(copy);
+        System.out.print(nbUniques + " uniques items, ");
+        System.out.print("remove duplicactes:\t");
         printArray(copy);
     }
 }
