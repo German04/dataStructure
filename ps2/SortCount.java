@@ -331,6 +331,41 @@ public class SortCount {
         int[] tmp = new int[arr.length];
         mSort(arr, tmp, 0, arr.length - 1);
     }
+    
+    /** swapsort */
+    public static void swapSort(int[] arr) {
+        // recursive method
+        //sSort(arr, 0, 1);
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = i+1; j < arr.length; j++) {
+                if (compare(arr[i] > arr[j]))
+                    swap(arr, i, j);
+            }
+        }
+    }
+    
+    /** sSort - recursive method for swap */
+    // stack overflow on recursive method...
+    /*
+    private static void sSort(int[] arr, int iFirst, int iSecond) {
+      // base case
+      if(iFirst == arr.length-1)
+        return;
+      
+      //compare
+      if(compare(arr[iFirst] > arr[iSecond])){
+        swap(arr, iFirst, iSecond);
+      }
+      
+      // recursive call
+      if(iSecond < arr.length - 1){
+        sSort(arr, iFirst, iSecond+1);
+        }
+      else{
+        sSort(arr, iFirst+1, iFirst+2);
+        }
+    }
+    */
 
     /**
      * Prints the specified array in the following form:
@@ -366,6 +401,8 @@ public class SortCount {
         arrayType = in.nextLine();
         System.out.println();
 
+        int i = 0;
+        while(i < 20){
         /* 
          * Create the arrays.   
          */
@@ -385,7 +422,7 @@ public class SortCount {
          * Try each of the various algorithms, starting each time 
          * with a fresh copy of the initial array.
          */
-        System.out.print("quickSort\t\t");
+        /*System.out.print("quickSort\t\t");
         System.arraycopy(asave, 0, a, 0, asave.length);
         initStats();
         quickSort(a);
@@ -425,6 +462,15 @@ public class SortCount {
         initStats();
         bubbleSort(a);
         printStats();
+        printArray(a);*/
+        
+        System.out.print("swapSort\t\t");
+        System.arraycopy(asave, 0, a, 0, asave.length);
+        initStats();
+        swapSort(a);
+        printStats();
         printArray(a);
+        i++;
+        }
     }
 }

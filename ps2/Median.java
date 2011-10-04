@@ -72,13 +72,13 @@ public class Median {
         int[] evenLength = {4, 18, 12, 34, 7, 42, 15, 22, 5, 27};
         
         System.out.println("*****************");
-        System.out.println("odd length: ");
+        System.out.println("odd: ");
         Sort.printArray(oddLength);
         findMedian(oddLength);
         Sort.printArray(oddLength);
         
         System.out.println("*****************");
-        System.out.println("even length: ");
+        System.out.println("even: ");
         Sort.printArray(evenLength);
         findMedian(evenLength);
         Sort.printArray(evenLength);
