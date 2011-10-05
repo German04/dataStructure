@@ -212,15 +212,45 @@ public class Sort {
 
         System.out.println("}");
     }
+    /**
+     * modeFinder
+     */
+    
+    public static int modeFinder(int[] arr){
+      // merge sort the array
+      mergeSort(arr);
+      // init the mode
+      int mode = arr[0];
+      int modeFrequence = 0;
+      int tempFrequence = 0;
+      // go through all elements 1 time!
+      for(int i = 0; i<arr.length-1; i++ ){
+          if(arr[i] == arr[i+1]){
+            tempFrequence++;
+            }
+          else if(tempFrequence>modeFrequence){
+            modeFrequence = tempFrequence;
+            mode = arr[i];
+            tempFrequence = 0;
+             }
+          else{
+            tempFrequence = 0;
+            }
+      }
+    return mode;
+    }
     
     /**
      * removeDups - Remove duplicates from an already sorted array
      * \return int number of unique values in the array
      */
     private static Integer removeDups(int[] iSortedArr) {
+      // assume input is good
+    
       Integer nbUniqueValues = 1;
       Integer position = 1;
       
+      // start at 1:
       // the first element is at the good position
       for(Integer i=1; i<iSortedArr.length; i++){
         if (iSortedArr[i-1] != iSortedArr[i]){
@@ -286,7 +316,12 @@ public class Sort {
         /* remove duplicates */
         Integer nbUniques = removeDups(copy);
         System.out.print(nbUniques + " uniques items, ");
-        System.out.print("remove duplicactes:\t");
+        System.out.print("remove duplicates:\t");
         printArray(copy);
+        
+        /* mode finder*/
+        System.arraycopy(orig, 0, copy, 0, orig.length); 
+        int mode = modeFinder(copy);
+        System.out.print("mode: " + mode);
     }
 }

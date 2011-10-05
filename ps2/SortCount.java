@@ -334,7 +334,7 @@ public class SortCount {
     
     /** swapsort */
     public static void swapSort(int[] arr) {
-        // recursive method
+        // recursive method is not working if too many elements...
         //sSort(arr, 0, 1);
         for (int i = 0; i < arr.length - 1; i++) {
             for (int j = i+1; j < arr.length; j++) {
@@ -401,8 +401,6 @@ public class SortCount {
         arrayType = in.nextLine();
         System.out.println();
 
-        int i = 0;
-        while(i < 20){
         /* 
          * Create the arrays.   
          */
@@ -422,7 +420,7 @@ public class SortCount {
          * Try each of the various algorithms, starting each time 
          * with a fresh copy of the initial array.
          */
-        /*System.out.print("quickSort\t\t");
+        System.out.print("quickSort\t\t");
         System.arraycopy(asave, 0, a, 0, asave.length);
         initStats();
         quickSort(a);
@@ -462,7 +460,7 @@ public class SortCount {
         initStats();
         bubbleSort(a);
         printStats();
-        printArray(a);*/
+        printArray(a);
         
         System.out.print("swapSort\t\t");
         System.arraycopy(asave, 0, a, 0, asave.length);
@@ -470,7 +468,5 @@ public class SortCount {
         swapSort(a);
         printStats();
         printArray(a);
-        i++;
-        }
     }
 }
