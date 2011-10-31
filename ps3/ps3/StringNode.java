@@ -38,10 +38,20 @@ public class StringNode {
     private static StringNode getNode(StringNode str, int i) {
         if (i < 0 || str == null)
             return null;
-        else if (i == 0)
-            return str;
-        else
-            return getNode(str.next, i-1);
+
+        StringNode node = str;
+        int index = 0;
+    	
+        // iterate
+    	while(index < i){
+    		node = node.next;
+    		index++;
+    		
+    		if(node == null)
+    			return null;
+    	}
+    	
+    	return node;
     }
 
     /*****************************************************
@@ -153,10 +163,27 @@ public class StringNode {
     public static StringNode copy(StringNode str) {
         if (str == null)
             return null;
-
-        StringNode copyFirst = new StringNode(str.ch, null);
-        copyFirst.next = copy(str.next);
-        return copyFirst;
+        
+        //head of the list
+        StringNode head = str;
+        // head.next...?
+        
+        // node to iterate
+        StringNode node = str;
+    	
+        // iterate
+    	while(node.next != null){
+    		// fill next
+    		StringNode nextElement = node.next;
+    		nextElement.ch = node.next.ch;
+    		nextElement.next = node.next.next;
+    		
+    		// fill node
+    		node.next = nextElement;
+    		node = node.next;
+    	}
+    	
+    	return head;
     }
 
     /**
@@ -413,7 +440,7 @@ public class StringNode {
         System.out.println(str1);        // implicit toString call
         System.out.println("\nIts length is " + StringNode.length(str1) + 
             " characters.");
-/*
+
         // charAt
         n = -1;
         while (n < 0) {
@@ -480,7 +507,7 @@ public class StringNode {
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
         }
-        */
+        
         System.out.print("\nType another string: ");
         s = in.nextLine();
         str2 = StringNode.convert(s);
@@ -490,7 +517,7 @@ public class StringNode {
         // compareAlpha
         System.out.print("\ncomparing " + str1 + " and " + str2 + " gives: ");
         System.out.println(StringNode.compareAlpha(str1, str2));
-        /*
+        
         // concat
         System.out.print("\nconcatenation = ");
         StringNode.print(StringNode.concat(str1, str2));
@@ -504,6 +531,6 @@ public class StringNode {
         line = in.nextLine();
         str3 = StringNode.insertSorted(str3, line.charAt(0));
         StringNode.print(str3);
-        System.out.println();*/
+        System.out.println();
     }
 }
