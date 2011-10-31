@@ -88,12 +88,28 @@ public class StringNode {
         else if (str2 == null)
             return 2;
         
-        if (str1.ch < str2.ch)
+    	StringNode node1 = str1;
+        StringNode node2 = str2;
+    	
+        // iterate
+        // 1-until they differ
+        // 2- until we finish the string
+    	while(node1.ch == node2.ch){
+    		node1 = node1.next;
+    		node2 = node2.next;
+    		
+    		// did we reach the end of a string?
+    		if(node1 == null || node2 == null)
+    			break;
+    	}
+    	
+    	// compare the nodes
+        if (node1 == null && node2 == null)
+            return 0;
+        else if (node1 == null || node1.ch < node2.ch)
             return 1;
-        else if (str2.ch < str1.ch)
-            return 2;
         else
-            return compareAlpha(str1.next, str2.next);
+            return 2;
     }
     
     /**
@@ -397,7 +413,7 @@ public class StringNode {
         System.out.println(str1);        // implicit toString call
         System.out.println("\nIts length is " + StringNode.length(str1) + 
             " characters.");
-
+/*
         // charAt
         n = -1;
         while (n < 0) {
@@ -464,7 +480,7 @@ public class StringNode {
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
         }
-        
+        */
         System.out.print("\nType another string: ");
         s = in.nextLine();
         str2 = StringNode.convert(s);
@@ -474,7 +490,7 @@ public class StringNode {
         // compareAlpha
         System.out.print("\ncomparing " + str1 + " and " + str2 + " gives: ");
         System.out.println(StringNode.compareAlpha(str1, str2));
-        
+        /*
         // concat
         System.out.print("\nconcatenation = ");
         StringNode.print(StringNode.concat(str1, str2));
@@ -488,6 +504,6 @@ public class StringNode {
         line = in.nextLine();
         str3 = StringNode.insertSorted(str3, line.charAt(0));
         StringNode.print(str3);
-        System.out.println();
+        System.out.println();*/
     }
 }
