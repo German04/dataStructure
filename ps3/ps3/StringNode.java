@@ -571,7 +571,7 @@ public class StringNode {
         System.out.println(str1);        // implicit toString call
         System.out.println("\nIts length is " + StringNode.length(str1) + 
             " characters.");
-/*
+
         // charAt
         n = -1;
         while (n < 0) {
@@ -638,13 +638,13 @@ public class StringNode {
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
         }
-        */
+        
         System.out.print("\nType another string: ");
         s = in.nextLine();
         str2 = StringNode.convert(s);
         System.out.println("Its length is " + StringNode.length(str2) + 
             " characters.");
-/*
+        
         // compareAlpha
         System.out.print("\ncomparing " + str1 + " and " + str2 + " gives: ");
         System.out.println(StringNode.compareAlpha(str1, str2));
@@ -663,7 +663,7 @@ public class StringNode {
         str3 = StringNode.insertSorted(str3, line.charAt(0));
         StringNode.print(str3);
         System.out.println();
-        */
+        
         // printEveryOther
         System.out.print("\nprint every other = ");
         StringNode.printEveryOther(str1);

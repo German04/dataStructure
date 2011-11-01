@@ -29,7 +29,6 @@ public class CapitalGainCalc {
     private int totalNumShares;
 
     public CapitalGainCalc() {
-        /* Put your implementation of the constructor below. */
         this.capital = new LLQueue<Integer>();
         this.totalNumShares = 0;
 
@@ -44,10 +43,9 @@ public class CapitalGainCalc {
     }
 
     public int processSale(int numSharesToSell, int price) {
-        /* Replace the line below with your implementation of this method. */
     	if(totalNumShares < numSharesToSell)
     		throw new IllegalArgumentException("** You don't have " + numSharesToSell + " shares to sell. **");
-    	// remove from capital
+    	// Remove from capital
     	int sum = 0;
     	
     	// do sth if return null
