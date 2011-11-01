@@ -165,21 +165,20 @@ public class StringNode {
             return null;
         
         //head of the list
-        StringNode head = str;
-        // head.next...?
-        
-        // node to iterate
+        StringNode head = new StringNode(str.ch, null);
+        // node to get addresses
+        StringNode headcopy = head;
+        // node to get values
         StringNode node = str;
     	
         // iterate
     	while(node.next != null){
     		// fill next
-    		StringNode nextElement = node.next;
-    		nextElement.ch = node.next.ch;
-    		nextElement.next = node.next.next;
+    		StringNode nextElement = new StringNode(node.next.ch, node.next.next);
+    		headcopy.next = nextElement;
     		
     		// fill node
-    		node.next = nextElement;
+    		headcopy = headcopy.next;
     		node = node.next;
     	}
     	
@@ -371,13 +370,36 @@ public class StringNode {
         else if (str == null)         // end > length
             throw new IndexOutOfBoundsException();
         
-        if (start == 0) {
-            StringNode copyFirst = new StringNode(str.ch, null);
-            copyFirst.next = substring(str.next, 0, end - 1);
-            return copyFirst;
-        } else {
-            return substring(str.next, start - 1, end - 1);
+        // node to get values
+        StringNode node = str;
+        
+        // go to node of interest
+        for(int i=0; i<start; i++){
+        	if(node.next == null)
+        		return null;
+        	node = node.next;
         }
+        
+        //head of the list
+        StringNode head = new StringNode(node.ch, null);
+        // node to get addresses
+        StringNode headcopy = head;
+    	
+        // iterate
+    	for(int i=0; i<end-start; i++){
+           	if(node.next == null)
+        		return head;
+           	
+    		// fill next
+    		StringNode nextElement = new StringNode(node.next.ch, node.next.next);
+    		headcopy.next = nextElement;
+    		
+    		// fill node
+    		headcopy = headcopy.next;
+    		node = node.next;
+    	}
+    	
+    	return head;
     }
     
     /*
