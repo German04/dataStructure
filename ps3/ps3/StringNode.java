@@ -469,6 +469,59 @@ public class StringNode {
             trav = trav.next;
         }
     } 
+    
+    /**
+     * printEveryOther
+     */
+    public static void printEveryOther(StringNode str) {
+    	//base case
+    	if( str == null)
+    		return;
+    	
+    	// print
+    	System.out.print(str.ch);
+    	
+    	// recursive call
+    	if(str.next != null)
+    		printEveryOther(str.next.next);
+    } 
+    
+    /**
+     * largestChar
+     */
+    public static char largestChar(StringNode str) {
+    	//base case
+    	if( str == null)
+    		return '\0';
+    	    	
+    	// recursive call
+    	char recursiveChar = largestChar(str.next);
+    	
+    	// return
+    	if(recursiveChar > str.ch)
+    		return recursiveChar;
+    	else
+    		return str.ch;
+    }
+    
+    /**
+     * startsWith
+     */
+    public static boolean startsWith(StringNode str, StringNode prefix) {
+    	//base case
+    	if( prefix == null)
+    		return true;
+    	
+    	// if str is shorter than prefix
+    	if(str == null)
+    		return false;
+    	    	
+    	// recursive call
+    	if(str.ch == prefix.ch)
+    	  return startsWith(str.next, prefix.next);
+    	else
+    	  return false;
+    }
               
     public static void main(String[] args) throws IOException {
         StringNode copy, str, str1, str2, str3;
@@ -497,7 +550,7 @@ public class StringNode {
         System.out.println(str1);        // implicit toString call
         System.out.println("\nIts length is " + StringNode.length(str1) + 
             " characters.");
-
+/*
         // charAt
         n = -1;
         while (n < 0) {
@@ -564,13 +617,13 @@ public class StringNode {
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
         }
-        
+        */
         System.out.print("\nType another string: ");
         s = in.nextLine();
         str2 = StringNode.convert(s);
         System.out.println("Its length is " + StringNode.length(str2) + 
             " characters.");
-
+/*
         // compareAlpha
         System.out.print("\ncomparing " + str1 + " and " + str2 + " gives: ");
         System.out.println(StringNode.compareAlpha(str1, str2));
@@ -588,6 +641,21 @@ public class StringNode {
         line = in.nextLine();
         str3 = StringNode.insertSorted(str3, line.charAt(0));
         StringNode.print(str3);
+        System.out.println();
+        */
+        // printEveryOther
+        System.out.print("\nprint every other = ");
+        StringNode.printEveryOther(str1);
+        System.out.println();
+        
+        // largestChar
+        System.out.print("\nlargest char = ");
+        System.out.print(StringNode.largestChar(str1));
+        System.out.println();
+        
+        // startsWith
+        System.out.print("\nstarts with = ");
+        System.out.print(StringNode.startsWith(str1, str2));
         System.out.println();
     }
 }
