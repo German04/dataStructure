@@ -522,6 +522,27 @@ public class StringNode {
     	else
     	  return false;
     }
+    
+    /**
+     * lastIndexOf
+     */
+    public static int lastIndexOf(StringNode str, char ch) {
+    	//base case
+    	if( str == null)
+    		return -1;
+
+    	// recursive call
+        int index = lastIndexOf(str.next, ch);
+        
+        // decide what to return
+        if(index <0)
+        	if( str.ch == ch)
+            	return 0;
+        	else
+        	    return -1;
+        else
+        	return index + 1;
+    }
               
     public static void main(String[] args) throws IOException {
         StringNode copy, str, str1, str2, str3;
@@ -656,6 +677,11 @@ public class StringNode {
         // startsWith
         System.out.print("\nstarts with = ");
         System.out.print(StringNode.startsWith(str1, str2));
+        System.out.println();
+        
+        // lastIndexOf
+        System.out.print("\nlast index of = ");
+        System.out.print(StringNode.lastIndexOf(str1, 'F'));
         System.out.println();
     }
 }
