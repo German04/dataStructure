@@ -126,14 +126,49 @@ public class StringNode {
      * concat - returns the concatenation of two linked-list strings
      */
     public static StringNode concat(StringNode str1, StringNode str2) {
-        StringNode cat;
 
-        if (str1 == null)
-            cat = copy(str2);
-        else 
-            cat = new StringNode(str1.ch, concat(str1.next, str2));
-
-        return cat;
+        if (str1 == null && str2 == null)
+            return null;
+            	
+        // iterate
+    	if(str1 == null){
+    		return copy(str2);
+    	}
+    	if(str2 == null){
+    		return copy(str1);
+    	}
+    	
+        //head of the list
+        StringNode concat = new StringNode(str1.ch, null);
+        // node to get addresses
+        StringNode headcopy = concat;
+        
+        // node to str1
+        StringNode node1 = str1;
+        
+    	while(node1.next != null){
+    		// fill next
+    		StringNode nextElement = new StringNode(node1.next.ch, node1.next.next);
+    		headcopy.next = nextElement;
+    		
+    		// fill node
+    		headcopy = headcopy.next;
+    		node1 = node1.next;
+    	}
+    	
+    	// node to str2
+        StringNode node2 = str2;
+    	while(node2.next != null){
+    		// fill next
+    		StringNode nextElement = new StringNode(node2.next.ch, node2.next.next);
+    		headcopy.next = nextElement;
+    		
+    		// fill node
+    		headcopy = headcopy.next;
+    		node2 = node2.next;
+    	}
+    	
+    	return concat;
     }
 
     /**
