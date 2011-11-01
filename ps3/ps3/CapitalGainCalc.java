@@ -25,21 +25,40 @@ public class CapitalGainCalc {
     }
 
     /* Put your instance variables below */
+    private Queue<Integer> capital;
+    private int totalNumShares;
 
     public CapitalGainCalc() {
         /* Put your implementation of the constructor below. */
+        this.capital = new LLQueue<Integer>();
+        this.totalNumShares = 0;
 
     }
 
     public void processPurchase(int numShares, int price) {
-        /* Put your implementation of this method below. */
-
+    	// Add to capital
+    	for(int i=0; i<numShares; i++){
+    		this.capital.insert(price);
+    		totalNumShares++;
+    	}
     }
 
     public int processSale(int numSharesToSell, int price) {
         /* Replace the line below with your implementation of this method. */
-
-        return 0;
+    	if(totalNumShares < numSharesToSell)
+    		throw new IllegalArgumentException("** You don't have " + numSharesToSell + " shares to sell. **");
+    	// remove from capital
+    	int sum = 0;
+    	
+    	// do sth if return null
+    	for(int i=0; i<numSharesToSell; i++){
+    	    sum += this.capital.remove();
+    	    totalNumShares--;
+    	}
+    	
+    	// gain: sell - bought
+    	int gain = numSharesToSell*price - sum;
+        return gain;
     }
 
     public static void main(String[] args) {
