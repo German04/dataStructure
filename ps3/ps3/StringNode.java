@@ -102,13 +102,12 @@ public class StringNode {
         StringNode node2 = str2;
     	
         // iterate
-        // 1-until they differ
-        // 2- until we finish the string
+        // until they differ or until we "finish" one list
     	while(node1.ch == node2.ch){
     		node1 = node1.next;
     		node2 = node2.next;
     		
-    		// did we reach the end of a string?
+    		// did we reach the end of a list?
     		if(node1 == null || node2 == null)
     			break;
     	}
@@ -148,7 +147,7 @@ public class StringNode {
         
     	while(node1.next != null){
     		// fill next
-    		StringNode nextElement = new StringNode(node1.next.ch, node1.next.next);
+    		StringNode nextElement = new StringNode(node1.next.ch, null);
     		headcopy.next = nextElement;
     		
     		// fill node
@@ -158,9 +157,9 @@ public class StringNode {
     	
     	// node to str2
         StringNode node2 = str2;
-    	while(node2.next != null){
+    	while(node2 != null){
     		// fill next
-    		StringNode nextElement = new StringNode(node2.next.ch, node2.next.next);
+    		StringNode nextElement = new StringNode(node2.ch, null);
     		headcopy.next = nextElement;
     		
     		// fill node
@@ -199,7 +198,7 @@ public class StringNode {
         if (str == null)
             return null;
         
-        //head of the list
+        //ref head of the new list
         StringNode head = new StringNode(str.ch, null);
         // node to get addresses
         StringNode headcopy = head;
@@ -212,7 +211,7 @@ public class StringNode {
     		StringNode nextElement = new StringNode(node.next.ch, node.next.next);
     		headcopy.next = nextElement;
     		
-    		// fill node
+    		// update node
     		headcopy = headcopy.next;
     		node = node.next;
     	}
@@ -355,7 +354,6 @@ public class StringNode {
      * print - recursively writes the specified linked-list string to System.out
      */
     public static void print(StringNode str) {
-    	// make sure str != null
     	if( str == null)
     		return;
     	
@@ -411,22 +409,22 @@ public class StringNode {
         // go to node of interest
         for(int i=0; i<start; i++){
         	if(node.next == null)
-        		return null;
+        		throw new IndexOutOfBoundsException();
         	node = node.next;
         }
         
-        //head of the list
+        // reference head of the list
         StringNode head = new StringNode(node.ch, null);
         // node to get addresses
         StringNode headcopy = head;
     	
         // iterate
-    	for(int i=0; i<end-start; i++){
+    	for(int i=0; i<end-start-1; i++){
            	if(node.next == null)
-        		return head;
+           		throw new IndexOutOfBoundsException();
            	
     		// fill next
-    		StringNode nextElement = new StringNode(node.next.ch, node.next.next);
+    		StringNode nextElement = new StringNode(node.next.ch, null);
     		headcopy.next = nextElement;
     		
     		// fill node
@@ -512,7 +510,7 @@ public class StringNode {
     	if( prefix == null)
     		return true;
     	
-    	// if str is shorter than prefix
+    	// if str is shorter than prefix, return false
     	if(str == null)
     		return false;
     	    	
@@ -664,24 +662,46 @@ public class StringNode {
         StringNode.print(str3);
         System.out.println();
         
+        StringNode str4 = convert("method frame");
+        
         // printEveryOther
-        System.out.print("\nprint every other = ");
-        StringNode.printEveryOther(str1);
+        System.out.print("\nprint every other from \"method frame\" = ");
+        StringNode.printEveryOther(str4);
         System.out.println();
         
         // largestChar
-        System.out.print("\nlargest char = ");
-        System.out.print(StringNode.largestChar(str1));
+        System.out.print("\nlargest char from \"method frame\" = ");
+        System.out.print(StringNode.largestChar(str4));
         System.out.println();
         
+        StringNode str5 = convert("recursion");
+        StringNode str6 = convert("recur");
+        StringNode str7 = convert("recurse");
+        
         // startsWith
-        System.out.print("\nstarts with = ");
-        System.out.print(StringNode.startsWith(str1, str2));
+        System.out.print("\nstarts with \"recursion-recur\"= ");
+        System.out.print(StringNode.startsWith(str5, str6));
+        System.out.println();
+        
+        System.out.print("\nstarts with \"recursion-recurse\"= ");
+        System.out.print(StringNode.startsWith(str5, str7));
+        System.out.println();
+        
+        System.out.print("\nstarts with \"recur-recursion\"= ");
+        System.out.print(StringNode.startsWith(str6, str5));
         System.out.println();
         
         // lastIndexOf
-        System.out.print("\nlast index of = ");
-        System.out.print(StringNode.lastIndexOf(str1, 'F'));
+        System.out.print("\nlast index of  \"recurse-e\"= ");
+        System.out.print(StringNode.lastIndexOf(str7, 'e'));
+        System.out.println();
+        
+        System.out.print("\nlast index of  \"recurse-r\"= ");
+        System.out.print(StringNode.lastIndexOf(str7, 'r'));
+        System.out.println();
+        
+        System.out.print("\nlast index of  \"recurse-l\"= ");
+        System.out.print(StringNode.lastIndexOf(str7, 'l'));
         System.out.println();
     }
 }

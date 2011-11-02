@@ -1,5 +1,5 @@
 /*
- * StringNode.java
+ * StringNodeRecursion.java
  *
  * Author:          Computer Science E-119
  * Modified by:     <your name>, <your e-mail address>
@@ -18,14 +18,14 @@ import java.util.*;
  * take a reference to a string linked-list as a parameter.  This
  * approach allows us to use recursion to write many of the methods.
  */
-public class StringNode {
+public class StringNodeRecursion {
     private char ch;
-    private StringNode next;
+    private StringNodeRecursion next;
 
     /**
      * Constructor
      */
-    public StringNode(char c, StringNode n) {
+    public StringNodeRecursion(char c, StringNodeRecursion n) {
         ch = c;
         next = n;
     }
@@ -35,7 +35,7 @@ public class StringNode {
      * node i in the given linked-list string.  If the string is too
      * short, returns null.
      */
-    private static StringNode getNode(StringNode str, int i) {
+    private static StringNodeRecursion getNode(StringNodeRecursion str, int i) {
         if (i < 0 || str == null)
             return null;
         else if (i == 0)
@@ -54,11 +54,11 @@ public class StringNode {
      * index 0.  If the index i is < 0 or i > length - 1, the method
      * will end up throwing an IllegalArgumentException.
      */
-    public static char charAt(StringNode str, int i) {
+    public static char charAt(StringNodeRecursion str, int i) {
         if (str == null)
             throw new IllegalArgumentException("the string is empty");
         
-        StringNode node = getNode(str, i);
+        StringNodeRecursion node = getNode(str, i);
 
         if (node != null) 
             return node.ch;     
@@ -80,7 +80,7 @@ public class StringNode {
      * and the prefix of a string comes before the string
      * itself (e.g., "be" comes before "become").
      */
-    public static int compareAlpha(StringNode str1, StringNode str2) {
+    public static int compareAlpha(StringNodeRecursion str1, StringNodeRecursion str2) {
         if (str1 == null && str2 == null)
             return 0;
         else if (str1 == null)
@@ -99,13 +99,13 @@ public class StringNode {
     /**
      * concat - returns the concatenation of two linked-list strings
      */
-    public static StringNode concat(StringNode str1, StringNode str2) {
-        StringNode cat;
+    public static StringNodeRecursion concat(StringNodeRecursion str1, StringNodeRecursion str2) {
+        StringNodeRecursion cat;
 
         if (str1 == null)
             cat = copy(str2);
         else 
-            cat = new StringNode(str1.ch, concat(str1.next, str2));
+            cat = new StringNodeRecursion(str1.ch, concat(str1.next, str2));
 
         return cat;
     }
@@ -114,16 +114,16 @@ public class StringNode {
      * convert - converts a standard Java String object to a linked-list
      * string and returns a reference to the linked-list string
      */
-    public static StringNode convert(String s) {
+    public static StringNodeRecursion convert(String s) {
         if (s.length() == 0)
             return null;
 
-        StringNode firstNode = new StringNode(s.charAt(0), null);
-        StringNode prevNode = firstNode;
-        StringNode nextNode;
+        StringNodeRecursion firstNode = new StringNodeRecursion(s.charAt(0), null);
+        StringNodeRecursion prevNode = firstNode;
+        StringNodeRecursion nextNode;
 
         for (int i = 1; i < s.length(); i++) {
-            nextNode = new StringNode(s.charAt(i), null);
+            nextNode = new StringNodeRecursion(s.charAt(i), null);
             prevNode.next = nextNode;
             prevNode = nextNode;
         }
@@ -134,11 +134,11 @@ public class StringNode {
     /**
      * copy - returns a copy of the given linked-list string
      */
-    public static StringNode copy(StringNode str) {
+    public static StringNodeRecursion copy(StringNodeRecursion str) {
         if (str == null)
             return null;
 
-        StringNode copyFirst = new StringNode(str.ch, null);
+        StringNodeRecursion copyFirst = new StringNodeRecursion(str.ch, null);
         copyFirst.next = copy(str.next);
         return copyFirst;
     }
@@ -147,7 +147,7 @@ public class StringNode {
      * deleteChar - deletes character i in the given linked-list string and
      * returns a reference to the resulting linked-list string
      */
-    public static StringNode deleteChar(StringNode str, int i) {
+    public static StringNodeRecursion deleteChar(StringNodeRecursion str, int i) {
         if (str == null)
             throw new IllegalArgumentException("string is empty");
         else if (i < 0) 
@@ -155,7 +155,7 @@ public class StringNode {
         else if (i == 0) 
             str = str.next;
         else {
-            StringNode prevNode = getNode(str, i-1);
+            StringNodeRecursion prevNode = getNode(str, i-1);
             if (prevNode != null && prevNode.next != null) 
                 prevNode.next = prevNode.next.next;
             else
@@ -170,7 +170,7 @@ public class StringNode {
      * character ch in the given linked-list string.  If there is
      * none, returns -1.
      */
-    public static int indexOf(StringNode str, char ch) {
+    public static int indexOf(StringNodeRecursion str, char ch) {
         if (str == null)         // base case 1: ch wasn't found
             return -1;
         else if (str.ch == ch)   // base case 2: ch was just found
@@ -189,18 +189,18 @@ public class StringNode {
      * currently in position i of the specified linked-list string.
      * Returns a reference to the resulting linked-list string.
      */
-    public static StringNode insertChar(StringNode str, int i, char ch) {
-        StringNode newNode, prevNode;
+    public static StringNodeRecursion insertChar(StringNodeRecursion str, int i, char ch) {
+        StringNodeRecursion newNode, prevNode;
 
         if (i < 0) 
             throw new IllegalArgumentException("invalid index: " + i);
         else if (i == 0) {
-            newNode = new StringNode(ch, str);
+            newNode = new StringNodeRecursion(ch, str);
             str = newNode;
         } else {
             prevNode = getNode(str, i-1);
             if (prevNode != null) {
-                newNode = new StringNode(ch, prevNode.next);
+                newNode = new StringNodeRecursion(ch, prevNode.next);
                 prevNode.next = newNode;
             } else 
                 throw new IllegalArgumentException("invalid index: " + i);
@@ -214,8 +214,8 @@ public class StringNode {
      * in a sorted list of characters (i.e., a sorted linked-list string)
      * and returns a reference to the resulting list.
      */
-    public static StringNode insertSorted(StringNode str, char ch) {
-        StringNode newNode, trail, trav;
+    public static StringNodeRecursion insertSorted(StringNodeRecursion str, char ch) {
+        StringNodeRecursion newNode, trail, trav;
 
         // Find where the character belongs.
         trail = null;
@@ -226,7 +226,7 @@ public class StringNode {
         }
 
         // Create and insert the new node.
-        newNode = new StringNode(ch, trav);
+        newNode = new StringNodeRecursion(ch, trav);
         if (trail == null) {
             // We never advanced the prev and trav references, so
             // newNode goes at the start of the list.
@@ -241,7 +241,7 @@ public class StringNode {
      * length - recursively determines the number of characters in the
      * linked-list string to which str refers
      */
-    public static int length(StringNode str) {
+    public static int length(StringNodeRecursion str) {
         if (str == null)
             return  0;
         else
@@ -252,7 +252,7 @@ public class StringNode {
      * numOccurrences - find the number of occurrences of the character
      * ch in the linked list to which str refers
      */
-    public static int numOccurrences(StringNode str, char ch) {
+    public static int numOccurrences(StringNodeRecursion str, char ch) {
         if (str == null)
             return 0;
      
@@ -266,7 +266,7 @@ public class StringNode {
     /**
      * print - recursively writes the specified linked-list string to System.out
      */
-    public static void print(StringNode str) {
+    public static void print(StringNodeRecursion str) {
         if (str == null)
             return;
         else {
@@ -279,14 +279,14 @@ public class StringNode {
      * read - reads a string from an input stream and returns a
      * reference to a linked list containing the characters in the string
      */
-    public static StringNode read(InputStream in) throws IOException {
-        StringNode str; 
+    public static StringNodeRecursion read(InputStream in) throws IOException {
+        StringNodeRecursion str; 
         char ch = (char)in.read();
 
         if (ch == '\n')    // base case
             str = null;         
         else
-            str = new StringNode(ch, read(in));
+            str = new StringNodeRecursion(ch, read(in));
     
         return str;
     }
@@ -304,7 +304,7 @@ public class StringNode {
      * method to determine if end > the length, and neither
      * should your revised method.
      */
-    public static StringNode substring(StringNode str, int start, int end) {
+    public static StringNodeRecursion substring(StringNodeRecursion str, int start, int end) {
         // Check for invalid parameters. 
         if (start < 0 || end < start)
             throw new IndexOutOfBoundsException();
@@ -315,7 +315,7 @@ public class StringNode {
             throw new IndexOutOfBoundsException();
         
         if (start == 0) {
-            StringNode copyFirst = new StringNode(str.ch, null);
+            StringNodeRecursion copyFirst = new StringNodeRecursion(str.ch, null);
             copyFirst.next = substring(str.next, 0, end - 1);
             return copyFirst;
         } else {
@@ -325,7 +325,7 @@ public class StringNode {
     
     /*
      * toString - creates and returns the Java string that
-     * the current StringNode represents.  Note that this
+     * the current StringNodeRecursion represents.  Note that this
      * method -- unlike the others -- is a non-static method.
      * Thus, it will not work for empty strings, since they
      * are represented by a value of null, and we can't use
@@ -333,7 +333,7 @@ public class StringNode {
      */
     public String toString() {
         String str = "";
-        StringNode trav = this;   // start trav on the current node
+        StringNodeRecursion trav = this;   // start trav on the current node
             
         while (trav != null) {
             str = str + trav.ch;
@@ -348,8 +348,8 @@ public class StringNode {
      * linked-list string to upper case.  Modifies the list itself,
      * rather than creating a new list.
      */
-    public static void toUpperCase(StringNode str) {        
-        StringNode trav = str; 
+    public static void toUpperCase(StringNodeRecursion str) {        
+        StringNodeRecursion trav = str; 
         while (trav != null) {
             trav.ch = Character.toUpperCase(trav.ch); 
             trav = trav.next;
@@ -357,19 +357,19 @@ public class StringNode {
     } 
               
     public static void main(String[] args) throws IOException {
-        StringNode copy, str, str1, str2, str3;
+        StringNodeRecursion copy, str, str1, str2, str3;
         String line;
         int n;
         char ch;
 
         // convert, print, and toUpperCase
-        str = StringNode.convert("fine");
+        str = StringNodeRecursion.convert("fine");
         System.out.print("Here's a string: "); 
-        StringNode.print(str);
+        StringNodeRecursion.print(str);
         System.out.println();
         System.out.print("Here it is in upper-case letters: "); 
-        StringNode.toUpperCase(str);
-        StringNode.print(str);
+        StringNodeRecursion.toUpperCase(str);
+        StringNodeRecursion.print(str);
         System.out.println();
         System.out.println();
 
@@ -378,10 +378,10 @@ public class StringNode {
         // read, toString, and length.
         System.out.print("Type a string: ");
         String s = in.nextLine();
-        str1 = StringNode.convert(s);
+        str1 = StringNodeRecursion.convert(s);
         System.out.print("Your string is: "); 
         System.out.println(str1);        // implicit toString call
-        System.out.println("\nIts length is " + StringNode.length(str1) + 
+        System.out.println("\nIts length is " + StringNodeRecursion.length(str1) + 
             " characters.");
 
         // charAt
@@ -392,7 +392,7 @@ public class StringNode {
             in.nextLine();
         }
         try {
-            ch = StringNode.charAt(str1, n);
+            ch = StringNodeRecursion.charAt(str1, n);
             System.out.println("That character is " + ch);
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
@@ -401,7 +401,7 @@ public class StringNode {
         // indexOf
         System.out.print("\nWhat character to search for? ");
         line = in.nextLine();
-        n = StringNode.indexOf(str1, line.charAt(0));
+        n = StringNodeRecursion.indexOf(str1, line.charAt(0));
         if (n == -1)
             System.out.println("Not in the string.");
         else
@@ -414,7 +414,7 @@ public class StringNode {
         System.out.print("\nend index for substring? ");
         int end = in.nextInt();
         in.nextLine();
-        System.out.println("substring = " + StringNode.substring(str1, start, end));
+        System.out.println("substring = " + StringNodeRecursion.substring(str1, start, end));
         
         // deleteChar and copy
         n = -1;
@@ -423,15 +423,15 @@ public class StringNode {
             n = in.nextInt();
             in.nextLine();
         }
-        copy = StringNode.copy(str1);
+        copy = StringNodeRecursion.copy(str1);
         try {
-            str1 = StringNode.deleteChar(str1, n);
-            StringNode.print(str1);
+            str1 = StringNodeRecursion.deleteChar(str1, n);
+            StringNodeRecursion.print(str1);
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
         }
         System.out.print("\nUnchanged copy: ");
-        StringNode.print(copy);
+        StringNodeRecursion.print(copy);
         System.out.println();
 
         // insertChar
@@ -444,8 +444,8 @@ public class StringNode {
         System.out.print("What character to insert? ");
         line = in.nextLine();
         try {
-            str1 = StringNode.insertChar(str1, n, line.charAt(0));
-            StringNode.print(str1);
+            str1 = StringNodeRecursion.insertChar(str1, n, line.charAt(0));
+            StringNodeRecursion.print(str1);
             System.out.println();
         } catch (IllegalArgumentException e) {
             System.out.println("The string is too short.");
@@ -453,27 +453,27 @@ public class StringNode {
         
         System.out.print("\nType another string: ");
         s = in.nextLine();
-        str2 = StringNode.convert(s);
-        System.out.println("Its length is " + StringNode.length(str2) + 
+        str2 = StringNodeRecursion.convert(s);
+        System.out.println("Its length is " + StringNodeRecursion.length(str2) + 
             " characters.");
 
         // compareAlpha
         System.out.print("\ncomparing " + str1 + " and " + str2 + " gives: ");
-        System.out.println(StringNode.compareAlpha(str1, str2));
+        System.out.println(StringNodeRecursion.compareAlpha(str1, str2));
         
         // concat
         System.out.print("\nconcatenation = ");
-        StringNode.print(StringNode.concat(str1, str2));
+        StringNodeRecursion.print(StringNodeRecursion.concat(str1, str2));
         System.out.println();
 
         // insertSorted
         System.out.print(
             "\nType a string of characters in alphabetical order: ");
-        str3 = StringNode.read(System.in);
+        str3 = StringNodeRecursion.read(System.in);
         System.out.print("What character to insert in order? ");
         line = in.nextLine();
-        str3 = StringNode.insertSorted(str3, line.charAt(0));
-        StringNode.print(str3);
+        str3 = StringNodeRecursion.insertSorted(str3, line.charAt(0));
+        StringNodeRecursion.print(str3);
         System.out.println();
     }
 }
