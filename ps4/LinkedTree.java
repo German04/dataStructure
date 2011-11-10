@@ -290,7 +290,7 @@ public class LinkedTree {
     	if (root == null) // root is the root of the entire tree
             throw new IllegalStateException("the tree is empty");
     	
-        int depth = 1;
+        int depth = 0;
         Node temp = root;
         
     	while( true ){
@@ -331,13 +331,13 @@ public class LinkedTree {
             goLeft = true;
 
         if (root.left != null && goLeft){
-            int depthInLeft = depthInTree(key, root.left);
+            int depthInLeft = depthInTreeIt(key, root.left);
             if (depthInLeft != -1)
                 return depthInLeft + 1;
            }
 
        if (root.right != null && !goLeft) {
-           int depthInRight = depthInTree(key, root.right);
+           int depthInRight = depthInTreeIt(key, root.right);
            if (depthInRight != -1)
                return depthInRight + 1;
           }
@@ -462,6 +462,15 @@ public class LinkedTree {
             System.out.println(key + " = " + data);
         else
             System.out.println("no such key in tree");
+        
+        // depth of the key
+        System.out.println("depth it");
+        int it_depth = tree.depthIt(key);
+        System.out.println("depth is: " + Integer.toString(it_depth));
+        
+        System.out.println("depth re");
+        int re_depth = tree.depth(key);
+        System.out.println("depth is: " + Integer.toString(re_depth));
         
         System.out.print("\nkey to delete: ");
         key = in.nextInt();
