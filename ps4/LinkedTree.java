@@ -358,6 +358,8 @@ public class LinkedTree {
         if (other == null)
             throw new IllegalArgumentException("parameter must be non-null");
         
+        System.out.println("hello: ");
+        
         return isomorphic(this.root, other.root);
     }
     
@@ -366,9 +368,31 @@ public class LinkedTree {
      * isomorphic, returning true if they are and false if they are not.
      */
     private static boolean isomorphic(Node root1, Node root2) {
-        /*** implement this method for PS 4 ***/
-        
-        return false;
+        // we assume root1 and root2 are valid since it is a private method,
+    	// checks are performed before
+    	
+    	// base cases
+    	// trees are equals
+    	if(root1 == null && root2 == null)
+    		return true;
+    	
+    	// tree 1 is smaller than tree 2
+    	// or tree 2 is smaller than tree 1
+    	if(root1 == null || root2 == null)
+    		return false;
+    	
+    	//
+    	boolean isoLeft = false;
+    	boolean isoRight = false;
+    	
+    	if(root1.key == root2.key)
+    	    {
+    		isoLeft = isomorphic(root1.left, root2.left);
+    	    if(isoLeft)
+    	    	isoRight = isomorphic(root1.right, root2.right);
+    	    }
+    	
+        return (isoLeft && isoRight);
     }
         
     /** Returns a preorder iterator for this tree. */
@@ -464,13 +488,28 @@ public class LinkedTree {
             System.out.println("no such key in tree");
         
         // depth of the key
-        System.out.println("depth it");
+        System.out.println("depth iterative");
         int it_depth = tree.depthIt(key);
         System.out.println("depth is: " + Integer.toString(it_depth));
         
-        System.out.println("depth re");
+        System.out.println("depth recursive");
         int re_depth = tree.depth(key);
         System.out.println("depth is: " + Integer.toString(re_depth));
+        
+        System.out.println("Isomorphic");
+        LinkedTree tree2 = new LinkedTree();
+        tree2.insert(7, "root node");
+        tree2.insert(9, "7's right child");
+        tree2.insert(5, "7's left child");
+        tree2.insert(2, "5's left child");
+        tree2.insert(8, "9's left child");
+        tree2.insert(6, "5's right child");
+        tree2.insert(4, "2's right child");
+        tree2.insert(3, "3's right child");
+        boolean iso = tree.isomorphicTo(tree2);
+        System.out.println("Result t1.iso(t2): " + iso);
+        iso = tree2.isomorphicTo(tree);
+        System.out.println("Result t2.iso(t1): " + iso);
         
         System.out.print("\nkey to delete: ");
         key = in.nextInt();
