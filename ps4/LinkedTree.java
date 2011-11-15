@@ -412,10 +412,14 @@ public class LinkedTree {
     /*** inner class for a preorder iterator ***/
     private class InorderIterator implements LinkedTreeIterator {
         private Node nextNode;
+        private boolean goRight;
         
         private InorderIterator() {
-            // The traversal starts with the left node.
-            nextNode = root.left;
+            // The traversal starts with the most left leave.
+        	nextNode = root;
+        	while(nextNode.left != null)
+                nextNode = nextNode.left;
+        	goRight = true;
         }
         
         public boolean hasNext() {
@@ -425,30 +429,54 @@ public class LinkedTree {
         public int next() {
             if (nextNode == null)
                 throw new NoSuchElementException();
-            
-            // Store a copy of the key to be returned.
+         // Store a copy of the key to be returned.
             int key = nextNode.key;
-            boolean parentVisited = false;
             
-            // Advance nextNode.
             // has left child? + not its reading parent
-            if (nextNode.left != null && parentVisited == false)
+            if (nextNode.left != null && goRight == false)
+                {
+            	///System.out.println("go left");
                 nextNode = nextNode.left;
+                }
             // if parent -> visit, put variable to go to 3rd if
             // just visited the parent
-            else if (parentVisited == false)
+            else if (nextNode.right != null)
                 {
-            	nextNode = nextNode.parent;
+            	nextNode = nextNode.right;
+            	while(nextNode.left != null)
+                    nextNode = nextNode.left;
+            	goRight = false;
+            	//System.out.println("go parent");
                 }
             // find the parent
             else {
-            	parentVisited = true;
-                // We've just visited a leaf node.
-                // Go back up the tree until we find a node
-                // with a right child that we haven't seen yet.
-                Node parent = nextNode;
-                Node child = nextNode.right;
+                // do sth similar to the while loop
+            	Node parent = nextNode.parent;
+            	Node child = nextNode;
+            	
+                // from right
+                if(parent.right == child)
+                    {
+            	    nextNode = nextNode.parent.parent;
+                    if(nextNode != null)
+                        {
+                        if(nextNode.right != null)
+                            {
+                    	    if(nextNode.right.right != null)
+                    	        {
+                    	        if(nextNode.right.right == child)
+                    		        nextNode = null;
+                    	        }
+                            }
+                        }
+                    }
+                // from left
+                else
+                	nextNode = nextNode.parent;
+
+            	goRight = true;
             }
+            
             return key;
         }
     }
@@ -511,10 +539,23 @@ public class LinkedTree {
         tree.insert(8, "9's left child");
         tree.insert(6, "5's right child");
         tree.insert(4, "2's right child");
+        tree.insert(1, "2's left child");
+        tree.insert(3, "2's left child");
+        //tree.insert(1, "2's left child");
+        tree.insert(10, "2's left child");
+        tree.insert(107, "2's left child");
+        tree.insert(70, "2's left child");
+        tree.insert(11, "2's left child");
         
         System.out.print("\n preorder: ");
         tree.preorderPrint();
         System.out.println();
+        System.out.print("  preorder it: ");
+        LinkedTreeIterator preIt = tree.preorderIterator();
+        
+        while(preIt.hasNext())
+        	System.out.print(preIt.next());
+        System.out.print("\n");
         
         System.out.print("postorder: ");
         tree.postorderPrint();
@@ -523,6 +564,12 @@ public class LinkedTree {
         System.out.print("  inorder: ");
         tree.inorderPrint();
         System.out.println();
+        System.out.print("  inorder it: ");
+        LinkedTreeIterator inIt = tree.inorderIterator();
+        
+        while(inIt.hasNext())
+        	System.out.print(inIt.next());
+        System.out.print("\n");
         
         System.out.print("\nkey to search for: ");
         int key = in.nextInt();
