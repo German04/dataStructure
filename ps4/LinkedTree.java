@@ -428,25 +428,27 @@ public class LinkedTree {
             
             // Store a copy of the key to be returned.
             int key = nextNode.key;
-            boolean readingParent = false;
+            boolean parentVisited = false;
             
             // Advance nextNode.
             // has left child? + not its reading parent
-            if (nextNode.left != null && readingParent == false)
+            if (nextNode.left != null && parentVisited == false)
                 nextNode = nextNode.left;
-            // no more left: has parent?
-            else if (nextNode.parent != null && readingParent == false)
-            	{
-                nextNode = nextNode.parent;
-                readingParent = true;
-            	}
-            // find right child we didn't process
-            else
-            	{
-            	nextNode = nextNode.right;
-            	readingParent = false;
-            	}
-            
+            // if parent -> visit, put variable to go to 3rd if
+            // just visited the parent
+            else if (parentVisited == false)
+                {
+            	nextNode = nextNode.parent;
+                }
+            // find the parent
+            else {
+            	parentVisited = true;
+                // We've just visited a leaf node.
+                // Go back up the tree until we find a node
+                // with a right child that we haven't seen yet.
+                Node parent = nextNode;
+                Node child = nextNode.right;
+            }
             return key;
         }
     }
