@@ -210,6 +210,9 @@ public class LinkedTree {
             parent.left = newNode;
         else  
             parent.right = newNode;
+        
+        // update the parent on insert!
+        newNode.parent = parent;
     }
     
     /**
@@ -251,6 +254,7 @@ public class LinkedTree {
             // the replacement.
             Node replaceParent = toDelete;
             Node replace = toDelete.right;
+                        
             while (replace.left != null) {
                 replaceParent = replace;
                 replace = replace.left;
@@ -402,9 +406,49 @@ public class LinkedTree {
     
     /** Returns an inorder iterator for this tree. */
     public LinkedTreeIterator inorderIterator() {
-        /*** implement this method for PS 4 ***/
+        return new InorderIterator();
+    }
+    
+    /*** inner class for a preorder iterator ***/
+    private class InorderIterator implements LinkedTreeIterator {
+        private Node nextNode;
         
-        return null;
+        private InorderIterator() {
+            // The traversal starts with the left node.
+            nextNode = root.left;
+        }
+        
+        public boolean hasNext() {
+            return (nextNode != null);
+        }
+        
+        public int next() {
+            if (nextNode == null)
+                throw new NoSuchElementException();
+            
+            // Store a copy of the key to be returned.
+            int key = nextNode.key;
+            boolean readingParent = false;
+            
+            // Advance nextNode.
+            // has left child? + not its reading parent
+            if (nextNode.left != null && readingParent == false)
+                nextNode = nextNode.left;
+            // no more left: has parent?
+            else if (nextNode.parent != null && readingParent == false)
+            	{
+                nextNode = nextNode.parent;
+                readingParent = true;
+            	}
+            // find right child we didn't process
+            else
+            	{
+            	nextNode = nextNode.right;
+            	readingParent = false;
+            	}
+            
+            return key;
+        }
     }
     
     /*** inner class for a preorder iterator ***/
