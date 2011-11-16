@@ -410,14 +410,14 @@ public class LinkedTree {
             // Store a copy of the key to be returned.
             int key = nextNode.key;
             
-            // has left child? + not its reading parent
             if (nextNode.left != null && goRight == false)
                 {
+            	System.out.println("left");
                 nextNode = nextNode.left;
                 }
-            // if has a right child, go to its most left element
             else if (nextNode.right != null)
                 {
+            	System.out.println("right");
             	nextNode = nextNode.right;
             	// time efficiency not constant...
             	while(nextNode.left != null)
@@ -426,24 +426,25 @@ public class LinkedTree {
                 }
             // find the parent
             else {
+            	System.out.println("parent");
             	Node parent = nextNode.parent;
             	Node child = nextNode;
             	
-                // we come from right
-            	// we go 2 levels up
-                if(parent != null && parent.right == child)
-                    {
-            	    nextNode = nextNode.parent.parent;
-            	    // if something 2 levels up, check where we come from
-            	    // else, nextNode == null: we finished visiting
-                    if(nextNode != null && nextNode.right != null && nextNode.right.right == child)
-                        nextNode = null;
-                    }
                 // we come from left
-                // we go one level up
-                else
+                if(parent != null && parent.left == child)
                 	nextNode = nextNode.parent;
-                
+                // if we come from right go up till we come from left or null
+                else
+                    {
+                	while(parent != null && parent.right == child)
+                	    {
+                		parent = parent.parent;
+                		child = child.parent;
+                	    }
+                	
+                    nextNode = parent;
+                    }
+                                
                 // don't visit the left node from the parent
             	goRight = true;
             }
@@ -506,7 +507,7 @@ public class LinkedTree {
         
         int add = 0;
         int key = 0;
-        while(add < 20)
+        while(add < 9)
         {
         System.out.print("\nkey to add: ");
         key = in.nextInt();
