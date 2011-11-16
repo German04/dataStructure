@@ -386,6 +386,7 @@ public class LinkedTree {
     /*** inner class for a inorder iterator ***/
     private class InorderIterator implements LinkedTreeIterator {
         private Node nextNode;
+        // when we are at the root level, should we go left or right?
         private boolean goRight;
         
         private InorderIterator() {
@@ -394,10 +395,8 @@ public class LinkedTree {
         	goRight = true;
         	
         	// time efficiency not constant...
-        	if(nextNode != null){
-        	    while(nextNode.left != null)
-                   nextNode = nextNode.left;
-        	}
+        	while(nextNode != null && nextNode.left != null)
+               nextNode = nextNode.left;
         }
         
         public boolean hasNext() {
@@ -407,43 +406,37 @@ public class LinkedTree {
         public int next() {
             if (nextNode == null)
                 throw new NoSuchElementException();
+            
             // Store a copy of the key to be returned.
             int key = nextNode.key;
             
+            // go left
             if (nextNode.left != null && goRight == false)
-                {
-            	System.out.println("left");
                 nextNode = nextNode.left;
-                }
+            // find smallest in right subtree and turn goRight to false
             else if (nextNode.right != null)
                 {
-            	System.out.println("right");
             	nextNode = nextNode.right;
             	// time efficiency not constant...
             	while(nextNode.left != null)
                     nextNode = nextNode.left;
             	goRight = false;
                 }
-            // find the parent
+            // find the parent and turn goRight to true
             else {
-            	System.out.println("parent");
+            	// We've just visited a leaf node.
+                // Go back up the tree until we find a node
+                // with a right child that we haven't seen yet.
             	Node parent = nextNode.parent;
             	Node child = nextNode;
             	
-                // we come from left
-                if(parent != null && parent.left == child)
-                	nextNode = nextNode.parent;
-                // if we come from right go up till we come from left or null
-                else
+                while(parent != null && parent.right == child)
                     {
-                	while(parent != null && parent.right == child)
-                	    {
-                		parent = parent.parent;
-                		child = child.parent;
-                	    }
-                	
-                    nextNode = parent;
+                	parent = parent.parent;
+                	child = child.parent;
                     }
+                
+                nextNode = parent;
                                 
                 // don't visit the left node from the parent
             	goRight = true;
@@ -507,7 +500,7 @@ public class LinkedTree {
         
         int add = 0;
         int key = 0;
-        while(add < 9)
+        while(add < 7)
         {
         System.out.print("\nkey to add: ");
         key = in.nextInt();
@@ -559,11 +552,10 @@ public class LinkedTree {
         tree2.insert(7, "root node");
         tree2.insert(9, "7's right child");
         tree2.insert(5, "7's left child");
-        tree2.insert(1, "5's left child");
+        tree2.insert(2, "5's left child");
         tree2.insert(8, "9's left child");
         tree2.insert(6, "5's right child");
         tree2.insert(4, "2's right child");
-        tree2.insert(3, "3's right child");
         
         boolean iso = tree.isomorphicTo(tree2);
         System.out.println("Result t1.isomorphicTo(t2): " + iso);
@@ -571,7 +563,7 @@ public class LinkedTree {
         System.out.println("Result t2.isomorphicTo(t1): " + iso);
         
         int delete = 0;
-        while(delete < 9){
+        while(delete < 7){
         System.out.print("\nkey to delete: ");
         key = in.nextInt();
         in.nextLine();
