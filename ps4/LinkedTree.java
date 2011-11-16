@@ -430,16 +430,17 @@ public class LinkedTree {
             	Node child = nextNode;
             	
                 // we come from right
+            	// we go 2 levels up
                 if(parent != null && parent.right == child)
                     {
-                	// go up 2 levels (if possible)
             	    nextNode = nextNode.parent.parent;
-            	    // if something, check where we come from
+            	    // if something 2 levels up, check where we come from
             	    // else, nextNode == null: we finished visiting
                     if(nextNode != null && nextNode.right != null && nextNode.right.right == child)
                         nextNode = null;
                     }
                 // we come from left
+                // we go one level up
                 else
                 	nextNode = nextNode.parent;
                 
@@ -505,7 +506,7 @@ public class LinkedTree {
         
         int add = 0;
         int key = 0;
-        while(add < 9)
+        while(add < 20)
         {
         System.out.print("\nkey to add: ");
         key = in.nextInt();
