@@ -337,27 +337,20 @@ public class LinkedTree {
     private static int depthInTreeIt(int key, Node root) {
         if (key == root.key)
             return 0;
-        
-        // true is we should go left
-        // false if we should go right
-        Boolean goLeft = false;
 
-        if(key < root.key)
-            goLeft = true;
-
-        if (root.left != null && goLeft){
+        if (root.left != null && key < root.key){
             int depthInLeft = depthInTreeIt(key, root.left);
             if (depthInLeft != -1)
                 return depthInLeft + 1;
            }
 
-       if (root.right != null && !goLeft) {
+       if (root.right != null && key >= root.key) {
            int depthInRight = depthInTreeIt(key, root.right);
            if (depthInRight != -1)
                return depthInRight + 1;
           }
 
-        return -1;
+       return -1;
     }
 
     
